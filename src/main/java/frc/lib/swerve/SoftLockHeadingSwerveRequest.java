@@ -3,23 +3,23 @@ package frc.lib.swerve;
 import java.util.function.DoubleSupplier;
 
 import com.ctre.phoenix6.StatusCode;
-import com.ctre.phoenix6.mechanisms.swerve.SwerveModule;
-import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.DriveRequestType;
-import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
-import com.ctre.phoenix6.mechanisms.swerve.utility.PhoenixPIDController;
+import com.ctre.phoenix6.mechanisms.swerve.LegacySwerveModule;
+import com.ctre.phoenix6.mechanisms.swerve.LegacySwerveModule.DriveRequestType;
+import com.ctre.phoenix6.mechanisms.swerve.LegacySwerveRequest;
+import com.ctre.phoenix6.mechanisms.swerve.utility.LegacyPhoenixPIDController;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 
-public class SoftLockHeadingSwerveRequest implements SwerveRequest{
-    private PhoenixPIDController HeadingController = new PhoenixPIDController(0, 0, 0);
+public class SoftLockHeadingSwerveRequest implements LegacySwerveRequest{
+    private LegacyPhoenixPIDController HeadingController = new LegacyPhoenixPIDController(0, 0, 0);
     private DoubleSupplier totalDriveCurrent;
     private double totalDriveCurrentLimit;
 
     /**
-     * A swerve request that is equivalent to @link{FieldCentricSwerveRequest} but when the rotation is under the deadband it
+     * A swerve request that is equivalent to @link{FieldCentricLegacySwerveRequest} but when the rotation is under the deadband it
      * uses a gentle position controller to hold the last heading.
      * 
      * Written at the smae time as the vastly superior PeaccyRequest.
@@ -86,7 +86,7 @@ public class SoftLockHeadingSwerveRequest implements SwerveRequest{
      */
     protected SwerveModuleState[] m_lastAppliedState = null;
 
-    public StatusCode apply(SwerveControlRequestParameters parameters, SwerveModule... modulesToApply) {
+    public StatusCode apply(LegacySwerveControlRequestParameters parameters, LegacySwerveModule... modulesToApply) {
         double toApplyX = VelocityX;
         double toApplyY = VelocityY;
         double toApplyOmega = RotationalRate;

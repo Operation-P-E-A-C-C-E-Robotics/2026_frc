@@ -3,8 +3,8 @@ package frc.robot.commands.drivetrain;
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
-import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
-import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.DriveRequestType;
+import com.ctre.phoenix6.mechanisms.swerve.LegacySwerveRequest;
+import com.ctre.phoenix6.mechanisms.swerve.LegacySwerveModule.DriveRequestType;
 
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -20,10 +20,10 @@ public class CTRERequestPeaccyDrive extends Command {
     private final BooleanSupplier isAutoAngleSup, isFieldRelativeSup, isOpenLoopSup, isLockInSup;
     private final Swerve driveTrain;
 
-    private final SwerveRequest.FieldCentric fieldCentricRequest = new SwerveRequest.FieldCentric();
-    private final SwerveRequest.RobotCentric robotCentricRequest = new SwerveRequest.RobotCentric();
-    private final SwerveRequest.FieldCentricFacingAngle autoHeadingRequest = new SwerveRequest.FieldCentricFacingAngle();
-    private final SwerveRequest.SwerveDriveBrake lockInRequest = new SwerveRequest.SwerveDriveBrake().withDriveRequestType(DriveRequestType.Velocity);
+    private final LegacySwerveRequest.FieldCentric fieldCentricRequest = new LegacySwerveRequest.FieldCentric();
+    private final LegacySwerveRequest.RobotCentric robotCentricRequest = new LegacySwerveRequest.RobotCentric();
+    private final LegacySwerveRequest.FieldCentricFacingAngle autoHeadingRequest = new LegacySwerveRequest.FieldCentricFacingAngle();
+    private final LegacySwerveRequest.SwerveDriveBrake lockInRequest = new LegacySwerveRequest.SwerveDriveBrake().withDriveRequestType(DriveRequestType.Velocity);
 
     private final SlewRateLimiter linearSpeedLimiter = new SlewRateLimiter(Constants.Swerve.teleopLinearSpeedLimit);
     private final SlewRateLimiter linearAngleLimiter = new SlewRateLimiter(Constants.Swerve.teleopLinearAngleLimit);

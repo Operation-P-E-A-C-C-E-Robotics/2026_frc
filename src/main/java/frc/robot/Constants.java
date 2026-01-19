@@ -7,15 +7,17 @@ package frc.robot;
 import java.io.IOException;
 import java.util.function.DoubleFunction;
 
+import com.pathplanner.lib.config.ModuleConfig;
+import com.pathplanner.lib.config.PIDConstants;
+import com.pathplanner.lib.config.RobotConfig;
 import com.pathplanner.lib.path.PathConstraints;
-import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
-import com.pathplanner.lib.util.PIDConstants;
-import com.pathplanner.lib.util.ReplanningConfig;
+
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import frc.lib.swerve.SwerveDescription.CANIDs;
@@ -142,19 +144,18 @@ public final class Constants {
       pathfollowingMaxAngularAcceleration
     );
 
-    public static final HolonomicPathFollowerConfig pathFollowerConfig = new HolonomicPathFollowerConfig(
-      new PIDConstants(3, 0, 0), 
-      new PIDConstants(5, 0, 0), 
-      pathfollowingMaxVelocity, 
-      dimensions.frontLeft.getNorm(), //drive radius
-      new ReplanningConfig(true, true),
-      period
-    );
-  }
-
-  public static final class ControlSystem {
-    public static final int PDPCanId = 0;
-    public static final ModuleType PDPModuleType = ModuleType.kCTRE;
+    public static final RobotConfig defaultPathplannerConfig = new RobotConfig(
+      Units.lbsToKilograms(120), //robot weight
+      6.883, //robot MOI
+      new ModuleConfig(
+        Units.inchesToMeters(2), //wheel radius //TODO: fudge factor
+        5, //Measured max robot speed
+        1.2, //wheel Coefficient of Friction
+        DCMotor.getFalcon500(1).withReduction(Swerve.gearing.driveRatio),
+        Swerve.physics.wheelSlipCurrent, //Drive current limit
+        1 //drive motors per module
+      ),
+      Swerve.dimensions.frontLeft, Swerve.dimensions.frontRight, Swerve.dimensions.rearLeft, Swerve.dimensions.rearRight);
   }
 
   public static final class FieldConstants {
@@ -168,8 +169,27 @@ public final class Constants {
     }
   }
 
-  //stolen from 364 :D
-  public class DriveGearRatios{
+  public static final class ControlSystem {
+    public static final int PDPCanId = 0;
+    public static final ModuleType PDPModuleType = ModuleType.kCTRE;
+  }
+
+    //TELEOP
+    //Speeds in m/s
+        public static final RobotConfig defaultPathplannerConfig = new RobotConfig(
+      Units.lbsToKilograms(120), //robot weight
+      6.883, //robot MOI
+      new ModuleConfig(
+        Units.inchesToMeters(2), //wheel radius //TODO: fudge factor
+        5, //Measured max robot speed
+        1.2, //wheel Coefficient of Friction
+        DCMotor.getFalcon500(1).withReduction(Swerve.gearing.driveRatio),
+        Swerve.physics.wheelSlipCurrent, //Drive current limit
+        1 //drive motors per module
+      ),
+      Swerve.dimensions.frontLeft, Swerve.dimensions.frontRight, Swerve.dimensions.rearLeft, Swerve.dimensions.rearRight);
+    
+     public class DriveGearRatios{
     /** SDS MK3 - 8.16 : 1 */
     public static final double SDSMK3_Standard = (8.16 / 1.0);
     /** SDS MK3 - 6.86 : 1 */
@@ -190,5 +210,7 @@ public final class Constants {
     public static final double SDSMK4i_L2 = (6.75 / 1.0);
     /** SDS MK4i - 6.12 : 1 */
     public static final double SDSMK4i_L3 = (6.12 / 1.0);
-}
-}
+  }
+  }
+ 
+

@@ -10,6 +10,7 @@ import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.wpilibj.RobotState;
 
 public interface ApriltagCamera {
     public VisionResults getLatestResults(Pose2d referencePose);
@@ -26,12 +27,15 @@ public interface ApriltagCamera {
         }
 
         public VisionResults getLatestResults(Pose2d referencePose){
-            var result = LimelightHelpers.getBotPoseEstimate_wpiBlue(name);
+            LimelightHelpers.SetRobotOrientation(name, referencePose.getRotation().getDegrees(), 0, 0, 0, 0, 0);
+            var poseEstimate = RobotState.isEnabled() ? 
+                LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(name)
+                : LimelightHelpers.getBotPoseEstimate_wpiBlue(name);
             last = new VisionResults(
-                result.pose,
-                result.tagCount,
-                result.timestampSeconds,
-                result.timestampSeconds > last.getTimestamp()
+                poseEstimate.pose,
+                poseEstimate.tagCount,
+                poseEstimate.timestampSeconds,
+                poseEstimate.timestampSeconds > last.getTimestamp()
             );
             return last;
         }
@@ -49,7 +53,7 @@ public interface ApriltagCamera {
 
         public ApriltagPhotonvision(String name, Transform3d robotToCamera, AprilTagFieldLayout layout, double trust) {
             camera = new PhotonCamera(name);
-            poseEstimator = new PhotonPoseEstimator(layout, PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, camera, robotToCamera);
+            poseEstimator = new PhotonPoseEstimator(layout, PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, robotToCamera);
             poseEstimator.setMultiTagFallbackStrategy(PoseStrategy.CLOSEST_TO_REFERENCE_POSE);
             this.trust = trust;
         }
@@ -57,13 +61,16 @@ public interface ApriltagCamera {
         @Override
         public VisionResults getLatestResults(Pose2d referencePose) {
             poseEstimator.setReferencePose(referencePose);
-            var result = poseEstimator.update();
-            if(result.isEmpty()) return last.stale();
+            var results = camera.getAllUnreadResults();
+            if(results.isEmpty()) return last.stale();
+            var poseEstimate = poseEstimator.update(results.get(0));
+            if(poseEstimate.isEmpty()) return last.stale();
+            System.out.println(poseEstimate.get().estimatedPose);
             last = new VisionResults(
-                result.get().estimatedPose,
-                result.get().targetsUsed.size(),
-                result.get().timestampSeconds,
-                result.get().timestampSeconds > last.getTimestamp()
+                poseEstimate.get().estimatedPose,
+                poseEstimate.get().targetsUsed.size(),
+                poseEstimate.get().timestampSeconds,
+                poseEstimate.get().timestampSeconds > last.getTimestamp()
             );
 
             return last;

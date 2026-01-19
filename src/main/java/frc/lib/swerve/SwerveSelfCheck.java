@@ -1,7 +1,7 @@
 package frc.lib.swerve;
 
-import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
-import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.DriveRequestType;
+import com.ctre.phoenix6.mechanisms.swerve.LegacySwerveRequest;
+import com.ctre.phoenix6.mechanisms.swerve.LegacySwerveModule.DriveRequestType;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -110,8 +110,8 @@ public class SwerveSelfCheck extends Command {
     private final double ACCUM_ERROR_DRIVE_WEIGHT = 0; //multiple of the accumulated error of the drive controller
     private final double ACCUM_DRIVE_CURRENT_WEIGHT = 0; //multiple of the accumulated current draw of the drive motors
 
-    private final SwerveRequest.PointWheelsAt angleTestRequest = new SwerveRequest.PointWheelsAt();
-    private final SwerveRequest.RobotCentric driveTestRequest = new SwerveRequest.RobotCentric().withDriveRequestType(DriveRequestType.Velocity);
+    private final LegacySwerveRequest.PointWheelsAt angleTestRequest = new LegacySwerveRequest.PointWheelsAt();
+    private final LegacySwerveRequest.RobotCentric driveTestRequest = new LegacySwerveRequest.RobotCentric().withDriveRequestType(DriveRequestType.Velocity);
 
     private Trajectory driveTestTrajectory;
     private Timer angle90Timer = new Timer();

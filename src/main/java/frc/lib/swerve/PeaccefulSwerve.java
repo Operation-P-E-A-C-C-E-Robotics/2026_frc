@@ -2,11 +2,11 @@ package frc.lib.swerve;
 
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
-import com.ctre.phoenix6.mechanisms.swerve.SwerveDrivetrain;
-import com.ctre.phoenix6.mechanisms.swerve.SwerveDrivetrainConstants;
-import com.ctre.phoenix6.mechanisms.swerve.SwerveModule;
-import com.ctre.phoenix6.mechanisms.swerve.SwerveModuleConstants;
-import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
+import com.ctre.phoenix6.mechanisms.swerve.LegacySwerveDrivetrain;
+import com.ctre.phoenix6.mechanisms.swerve.LegacySwerveDrivetrainConstants;
+import com.ctre.phoenix6.mechanisms.swerve.LegacySwerveModule;
+import com.ctre.phoenix6.mechanisms.swerve.LegacySwerveModuleConstants;
+import com.ctre.phoenix6.mechanisms.swerve.LegacySwerveRequest;
 
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.geometry.Pose3d;
@@ -34,23 +34,23 @@ import edu.wpi.first.wpilibj.Timer;
  * like a stupid casarole or whatever.
  * -Peaccy
  */
-public class PeaccefulSwerve extends SwerveDrivetrain {
+public class PeaccefulSwerve extends LegacySwerveDrivetrain {
     private Rotation3d pigeonOdometryOffset = new Rotation3d();
     private double visionZ = 0;
 
 
-    public PeaccefulSwerve(SwerveDrivetrainConstants driveTrainConstants, double OdometryUpdateFrequency,
-            SwerveModuleConstants[] modules) {
+    public PeaccefulSwerve(LegacySwerveDrivetrainConstants driveTrainConstants, double OdometryUpdateFrequency,
+            LegacySwerveModuleConstants[] modules) {
         super(driveTrainConstants, OdometryUpdateFrequency, modules);
     }
 
-    public PeaccefulSwerve(SwerveDrivetrainConstants driveTrainConstants,
-            SwerveModuleConstants[] modules, int pigeonCANId) {
+    public PeaccefulSwerve(LegacySwerveDrivetrainConstants driveTrainConstants,
+            LegacySwerveModuleConstants[] modules, int pigeonCANId) {
         super(driveTrainConstants, modules);
     }
  
-    public PeaccefulSwerve(SwerveDrivetrainConstants swerveConstants, SwerveModuleConstants frontLeft,
-            SwerveModuleConstants frontRight, SwerveModuleConstants rearLeft, SwerveModuleConstants rearRight) {
+    public PeaccefulSwerve(LegacySwerveDrivetrainConstants swerveConstants, LegacySwerveModuleConstants frontLeft,
+            LegacySwerveModuleConstants frontRight, LegacySwerveModuleConstants rearLeft, LegacySwerveModuleConstants rearRight) {
         super(swerveConstants, frontLeft, frontRight, rearLeft, rearRight);
     }
 
@@ -69,7 +69,7 @@ public class PeaccefulSwerve extends SwerveDrivetrain {
     public double[] getAngleClosedLoopErrors() {
         double[] errors = new double[4];
         int i = 0;
-        for (SwerveModule module : Modules) {
+        for (LegacySwerveModule module : Modules) {
             errors[i] = module.getSteerMotor().getClosedLoopError().getValueAsDouble();
         }
         return errors;
@@ -82,7 +82,7 @@ public class PeaccefulSwerve extends SwerveDrivetrain {
     public double[] getDriveClosedLoopErrors() {
         double[] errors = new double[4];
         int i = 0;
-        for (SwerveModule module : Modules) {
+        for (LegacySwerveModule module : Modules) {
             errors[i] = module.getDriveMotor().getClosedLoopError().getValueAsDouble();
         }
         return errors;
@@ -93,7 +93,7 @@ public class PeaccefulSwerve extends SwerveDrivetrain {
      * @param configs the new pidva gains
      */
     public void applyDriveConfigs (Slot0Configs configs) {
-        for (SwerveModule module : Modules) {
+        for (LegacySwerveModule module : Modules) {
             module.getDriveMotor().getConfigurator().apply(configs);
         }
     }
@@ -103,7 +103,7 @@ public class PeaccefulSwerve extends SwerveDrivetrain {
      * @param configs the new pidva gains
      */
     public void applySteerConfigs (Slot0Configs configs) {
-        for (SwerveModule module : Modules) {
+        for (LegacySwerveModule module : Modules) {
             module.getSteerMotor().getConfigurator().apply(configs);
         }
     }
@@ -116,7 +116,7 @@ public class PeaccefulSwerve extends SwerveDrivetrain {
         var limit = new CurrentLimitsConfigs();
         limit.StatorCurrentLimit = amps;
         limit.StatorCurrentLimitEnable = true;
-        for (SwerveModule module : Modules) {
+        for (LegacySwerveModule module : Modules) {
             module.getSteerMotor().getConfigurator().apply(limit);
         }
     }
@@ -184,7 +184,7 @@ public class PeaccefulSwerve extends SwerveDrivetrain {
 
     public double getTotalDriveCurrent(){
         double total = 0;
-        for (SwerveModule module : Modules) {
+        for (LegacySwerveModule module : Modules) {
             total += module.getDriveMotor().getStatorCurrent().getValueAsDouble();
         }
         return total;
@@ -199,8 +199,8 @@ public class PeaccefulSwerve extends SwerveDrivetrain {
             System.err.println("WARNING (PeaccefulSwerve.spinAngleMotors): This method can only be used in test mode.");
             return;
         }
-        setControl(new SwerveRequest.Idle());
-        for (SwerveModule module : Modules) {
+        setControl(new LegacySwerveRequest.Idle());
+        for (LegacySwerveModule module : Modules) {
             module.getSteerMotor().set(speed);
         }
     }

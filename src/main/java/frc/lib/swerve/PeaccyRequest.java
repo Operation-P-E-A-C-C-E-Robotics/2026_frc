@@ -5,10 +5,10 @@ import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
 
 import com.ctre.phoenix6.StatusCode;
-import com.ctre.phoenix6.mechanisms.swerve.SwerveModule;
-import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
-import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.DriveRequestType;
-import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.SteerRequestType;
+import com.ctre.phoenix6.mechanisms.swerve.LegacySwerveModule;
+import com.ctre.phoenix6.mechanisms.swerve.LegacySwerveRequest;
+import com.ctre.phoenix6.mechanisms.swerve.LegacySwerveModule.DriveRequestType;
+import com.ctre.phoenix6.mechanisms.swerve.LegacySwerveModule.SteerRequestType;
 
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.filter.SlewRateLimiter;
@@ -26,7 +26,7 @@ import frc.lib.util.Util;
 import frc.robot.subsystems.Swerve;
 
 /**
- * The most epic swerve request ever. Does all the things. Made by the one and only Peaccy.
+ * The most epic swerve request ever. Does all the things. Made by the one and only Peaccy. Pheonix Pathplanner Revlib
  * Please help, I keep waking up with crappy code under my behind so I put it here.
  * I don't know what I'm doing, it just falls out of my anus. It seems to work though. Occasionally
  * I'll get a good one, but I don't know how to make it happen. I just keep putting coffee in my mouth and it keeps coming out.
@@ -56,7 +56,7 @@ import frc.robot.subsystems.Swerve;
  * I hate programming.
  * -Peaccy
  */
-public class PeaccyRequest implements SwerveRequest {
+public class PeaccyRequest implements LegacySwerveRequest {
 
     /* INPUT PARAMETERS */
     public double VelocityX = 0;
@@ -159,7 +159,7 @@ public class PeaccyRequest implements SwerveRequest {
     }
 
     @Override
-    public StatusCode apply(SwerveControlRequestParameters parameters, SwerveModule... modulesToApply) {
+    public StatusCode apply(LegacySwerveControlRequestParameters parameters, LegacySwerveModule... modulesToApply) {
         Translation2d toApplyTranslation = new Translation2d(VelocityX, VelocityY);
         double toApplyRotation = RotationalRate;
 
@@ -217,7 +217,7 @@ public class PeaccyRequest implements SwerveRequest {
         SwerveTelemetry.updateRequestedState(states);
 
         for (int i = 0; i < modulesToApply.length; ++i) {
-            modulesToApply[i].apply(states[i], IsOpenLoop ? DriveRequestType.OpenLoopVoltage : DriveRequestType.Velocity, SteerRequestType.MotionMagic); //TODO change to motion magic expo
+            modulesToApply[i].apply(states[i], IsOpenLoop ? DriveRequestType.OpenLoopVoltage : DriveRequestType.Velocity, SteerRequestType.MotionMagic);
         }
 
         return StatusCode.OK;
@@ -370,7 +370,7 @@ public class PeaccyRequest implements SwerveRequest {
     /**
      * Get the rotation rate to apply to the robot to go to the target heading
      */
-    private double applyAutoHeading(SwerveControlRequestParameters parameters) {
+    private double applyAutoHeading(LegacySwerveControlRequestParameters parameters) {
         var currentHeading = swerve.getPose().getRotation().getRadians();
         if(AllianceFlipUtil.shouldFlip()) currentHeading += Math.PI;
 
@@ -398,7 +398,6 @@ public class PeaccyRequest implements SwerveRequest {
 
         prevHeading = currentHeading;
 
-        
         //calculate the correction
         var target = headingTrajectory.calculate(holdHeadingTrajectoryTimer.get() + (parameters.updatePeriod*1.5));
         if (LockHeading) {
@@ -408,13 +407,15 @@ public class PeaccyRequest implements SwerveRequest {
         var kP = LockHeading ? lockHeadingkP : holdHeadingkP;
         var error = target.position - currentHeading;
 
-        var acceleration = (target.velocity - getChassisSpeeds.get().omegaRadiansPerSecond);
+        var currentVelocity = getChassisSpeeds.get().omegaRadiansPerSecond;
+        var acceleration = (target.velocity - currentVelocity);
 
         if(robotMovingTimer.get() < 0.3 && Math.abs(error) < 0.01 && !LockHeading){
             return 0;
         }
 
-        var feedforward = headingFeedforward.calculate(target.velocity, acceleration);
+        // var feedforward = headingFeedforward.calculate(target.velocity, acceleration);
+        var feedforward = headingFeedforward.calculateWithVelocities(currentVelocity, target.velocity);
         var pGain = error * kP * parameters.updatePeriod;
         if(SoftHoldHeading) {
             var currentDraw = currentLimitSmoother.calculate(totalDriveCurrent.getAsDouble());

@@ -1,6 +1,6 @@
 package frc.lib.telemetry;
 
-import com.ctre.phoenix6.mechanisms.swerve.SwerveDrivetrain.SwerveDriveState;
+import com.ctre.phoenix6.mechanisms.swerve.LegacySwerveDrivetrain.LegacySwerveDriveState;
 import com.pathplanner.lib.util.PathPlannerLogging;
 
 import edu.wpi.first.math.geometry.Pose2d;
@@ -110,7 +110,7 @@ public class SwerveTelemetry {
         });
     }
 
-    public static void updateSwerveState(SwerveDriveState state, ChassisSpeeds measuredSpeeds, Pose3d pose) {
+    public static void updateSwerveState(LegacySwerveDriveState state, ChassisSpeeds measuredSpeeds, Pose3d pose) {
         swervePosePublisher.accept(pose);//TODO update once have 3d odometry stuff
         field.setRobotPose(state.Pose);
 

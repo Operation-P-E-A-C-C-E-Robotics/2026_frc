@@ -1,15 +1,26 @@
 package frc.robot.subsystems;
 
-import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
+import com.ctre.phoenix6.mechanisms.swerve.LegacySwerveRequest;
 import com.ctre.phoenix6.BaseStatusSignal;
-import com.ctre.phoenix6.mechanisms.swerve.SwerveDrivetrain.SwerveDriveState;
-import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.DriveRequestType;
+import com.ctre.phoenix6.mechanisms.swerve.LegacySwerveDrivetrain.LegacySwerveDriveState;
+import com.ctre.phoenix6.mechanisms.swerve.LegacySwerveModule.DriveRequestType;
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.config.PIDConstants;
+import com.pathplanner.lib.config.RobotConfig;
+import com.pathplanner.lib.controllers.PPHolonomicDriveController;
+
+import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.apriltag.AprilTagFields;
+import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.math.numbers.N1;
+import edu.wpi.first.math.numbers.N3;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -23,47 +34,85 @@ import frc.lib.util.AllianceFlipUtil;
 import frc.lib.vision.ApriltagCamera;
 import frc.lib.vision.PeaccyVision;
 import frc.robot.Constants;
+//import frc.robot.FieldConstants;
 
 import static frc.robot.Constants.Swerve.*;
 
 public class Swerve extends SubsystemBase {
     protected final PeaccefulSwerve swerve;
 
-    private final SwerveRequest.ApplyChassisSpeeds autonomousRequest = new SwerveRequest.ApplyChassisSpeeds()
+    private final LegacySwerveRequest.ApplyChassisSpeeds autonomousRequest = new LegacySwerveRequest.ApplyChassisSpeeds()
                                                                                         .withDriveRequestType(DriveRequestType.Velocity);
     private final SendableChooser<Pose2d> poseSeedChooser = new SendableChooser<>();
 
     // private LimelightHelper limelight;
 
-    private static PeaccyVision eyes = new PeaccyVision(
-        new ApriltagCamera.ApriltagLimelight(Constants.Cameras.exampleLimelight, 0.1),
-        Constants.Cameras.examplePhotonvision
-    );
+    // private static PeaccyVision eyes = new PeaccyVision(
+    //     // new ApriltagCamera.ApriltagLimelight(Constants.Cameras.limelight, 0.1),
+    //     new ApriltagCamera.ApriltagPhotonvision(
+    //         Constants.Cameras.examplePhotonvisionName, 
+    //         new Transform3d(0,0,0, new Rotation3d(0,0,0)), 
+    //         AprilTagFieldLayout.loadField(AprilTagFields.kDefaultField), 0.001)
+    // );
 
     public Swerve() {
         swerve = SwerveDescription.generateDrivetrain(
-            dimensions, 
-            frontLeftIDs, 
-            frontRightIDs, 
-            rearLeftIDs, 
-            rearRightIDs, 
-            gearing, 
-            offsets, 
-            inversion, 
-            physics, 
-            driveGains, 
-            angleGains, 
-            pigeonCANId, 
+            dimensions,
+            frontLeftIDs,
+            frontRightIDs,
+            rearLeftIDs,
+            rearRightIDs,
+            gearing,
+            offsets,
+            inversion,
+            physics,
+            driveGains,
+            angleGains,
+            pigeonCANId,
             invertSteerMotors
         );
 
         swerve.setSteerCurrentLimit(steerMotorCurrentLimit);
 
         //pathplanner config
-        AutoBuilder.configureHolonomic(this::getPose, this::resetOdometry, this::getChassisSpeeds, this::drive, pathFollowerConfig, () -> false, this);
+        // Load the RobotConfig from the GUI settings. You should probably
+        // store this in your Constants file
+        RobotConfig config;
+        try{
+            config = RobotConfig.fromGUISettings();
+        } catch (Exception e) {
+            // Handle exception as needed
+            e.printStackTrace();
+            config = Constants.Swerve.defaultPathplannerConfig;
+        }
+
+        // Configure AutoBuilder last
+        AutoBuilder.configure(
+                this::getPose, // Robot pose supplier
+                this::resetOdometry, // Method to reset odometry (will be called if your auto has a starting pose)
+                this::getChassisSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
+                (speeds, feedforwards) -> drive(speeds), // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds. Also optionally outputs individual module feedforwards
+                new PPHolonomicDriveController( // PPHolonomicController is the built in path following controller for holonomic drive trains
+                        new PIDConstants(3.0, 0.0, 0.0), // Translation PID constants
+                        new PIDConstants(3.0, 0.0, 0.0) // Rotation PID constants
+                ),
+                config, // The robot configuration
+                () -> {
+                    // Boolean supplier that controls when the path will be mirrored for the red alliance
+                    // This will flip the path being followed to the red side of the field.
+                    // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
+
+                    // var alliance = DriverStation.getAlliance();
+                    // if (alliance.isPresent()) {
+                    //     return alliance.get() == DriverStation.Alliance.Red;
+                    // }
+                    return false;
+                },
+                this // Reference to this subsystem to set requirements
+        );
 
         //log swerve state data as fast as it comes in
-        swerve.registerTelemetry((SwerveDriveState state) -> {
+        swerve.registerTelemetry((LegacySwerveDriveState state) -> {
             SwerveTelemetry.updateSwerveState(state, ChassisSpeeds.fromRobotRelativeSpeeds(getChassisSpeeds(), getPose().getRotation()), swerve.getPose3d());
         });
 
@@ -79,7 +128,7 @@ public class Swerve extends SubsystemBase {
      * make it go.
      * @param request the request to apply to the drivetrain.
      */
-    public void drive(SwerveRequest request) {
+    public void drive(LegacySwerveRequest request) {
         swerve.setControl(request);
     }
 
@@ -98,6 +147,10 @@ public class Swerve extends SubsystemBase {
     public Pose2d getPose () {
         var pose = swerve.getState().Pose;
         if (pose == null) return new Pose2d();
+        // if(AllianceFlipUtil.shouldFlip()) {
+        //     var redAllianceOrigin = new Pose2d(FieldConstants.fieldLength, FieldConstants.fieldWidth, Rotation2d.fromDegrees(180));
+        //     pose = pose.relativeTo(redAllianceOrigin);
+        // }
         return pose;
     }
 
@@ -108,7 +161,7 @@ public class Swerve extends SubsystemBase {
     public ChassisSpeeds getChassisSpeeds() {
         return swerve.getChassisSpeeds();
     }
-    
+
     /**
      * sometimes, the missile forgets where it is, and it's not even where it's been.
      */
@@ -136,9 +189,9 @@ public class Swerve extends SubsystemBase {
         resetOdometry(cachedPose);
     }
     
-    public PeaccyVision getCameras(){
-        return eyes;
-    }
+    // public PeaccyVision getCameras(){
+    //     return eyes;
+    // }
 
     public Rotation3d getGyroAngle() {
         return swerve.getRotation3d();
@@ -164,6 +217,10 @@ public class Swerve extends SubsystemBase {
         swerve.applySteerConfigs(gains);
     }
 
+    public void addVisionMeasurement(Pose2d visionPose, double timestampSeconds) {
+        swerve.addVisionMeasurement(visionPose, timestampSeconds);
+    }
+
     @Override
     public void periodic() {
         if(SmartDashboard.getBoolean("seed pose", false)) {
@@ -176,15 +233,15 @@ public class Swerve extends SubsystemBase {
         }
 
         BaseStatusSignal.refreshAll(swerve.getPigeon2().getAccelerationX(), swerve.getPigeon2().getAccelerationY(), swerve.getPigeon2().getAccelerationZ());
-        var acceleration = swerve.getPigeon2().getAccelerationX().getValue() + swerve.getPigeon2().getAccelerationY().getValue() + swerve.getPigeon2().getAccelerationZ().getValue();
-        eyes.update(getPose(), acceleration, new Translation2d(getChassisSpeeds().vxMetersPerSecond, getChassisSpeeds().vyMetersPerSecond).getNorm());
-        if(eyes.hasUpdated()){
-            swerve.addVisionMeasurement(
-                eyes.getPose(),
-                eyes.getTimestamp(),
-                eyes.getStDev()
-            );
-        }
+        var acceleration = swerve.getPigeon2().getAccelerationX().getValue().magnitude() + swerve.getPigeon2().getAccelerationY().getValue().magnitude() + swerve.getPigeon2().getAccelerationZ().getValue().magnitude();
+        // eyes.update(getPose(), acceleration, new Translation2d(getChassisSpeeds().vxMetersPerSecond, getChassisSpeeds().vyMetersPerSecond).getNorm());
+        // if(eyes.hasUpdated()){
+        //     swerve.addVisionMeasurement(
+        //         eyes.getPose(),
+        //         eyes.getTimestamp(),
+        //         eyes.getStDev()
+        //     );
+        // }
     }
 
     @Override
@@ -196,4 +253,3 @@ public class Swerve extends SubsystemBase {
         Inspiration.fullPeacce(j);
     }
 }
-

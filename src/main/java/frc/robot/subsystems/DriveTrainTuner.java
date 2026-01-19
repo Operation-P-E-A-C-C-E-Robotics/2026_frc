@@ -1,8 +1,8 @@
 package frc.robot.subsystems;
 
-import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
-import com.ctre.phoenix6.mechanisms.swerve.SwerveDrivetrain.SwerveDriveState;
-import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.DriveRequestType;
+import com.ctre.phoenix6.mechanisms.swerve.LegacySwerveRequest;
+import com.ctre.phoenix6.mechanisms.swerve.LegacySwerveDrivetrain.LegacySwerveDriveState;
+import com.ctre.phoenix6.mechanisms.swerve.LegacySwerveModule.DriveRequestType;
 
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -28,10 +28,10 @@ public class DriveTrainTuner extends SubsystemBase {
     double linearSpeedDeadband = 0.1,
            angularVelocityDeadband = 0.1;
 
-    private final SwerveRequest.FieldCentric fieldCentricRequest = new SwerveRequest.FieldCentric();
-    private final SwerveRequest.RobotCentric robotCentricRequest = new SwerveRequest.RobotCentric();
-    private final SwerveRequest.FieldCentricFacingAngle autoHeadingRequest = new SwerveRequest.FieldCentricFacingAngle();
-    private final SwerveRequest.SwerveDriveBrake lockInRequest = new SwerveRequest.SwerveDriveBrake().withDriveRequestType(DriveRequestType.Velocity);
+    private final LegacySwerveRequest.FieldCentric fieldCentricRequest = new LegacySwerveRequest.FieldCentric();
+    private final LegacySwerveRequest.RobotCentric robotCentricRequest = new LegacySwerveRequest.RobotCentric();
+    private final LegacySwerveRequest.FieldCentricFacingAngle autoHeadingRequest = new LegacySwerveRequest.FieldCentricFacingAngle();
+    private final LegacySwerveRequest.SwerveDriveBrake lockInRequest = new LegacySwerveRequest.SwerveDriveBrake().withDriveRequestType(DriveRequestType.Velocity);
 
     private double newAutoHeadingKP = autoHeadingKP;
     private double newAutoHeadingKI = autoHeadingKI;
@@ -87,7 +87,7 @@ public class DriveTrainTuner extends SubsystemBase {
         ); 
 
         //log swerve state data as fast as it comes in
-        swerve.registerTelemetry((SwerveDriveState state) -> {
+        swerve.registerTelemetry((LegacySwerveDriveState state) -> {
             SwerveTelemetry.updateSwerveState(state, swerve.getChassisSpeeds(), swerve.getPose3d());
             SmartDashboard.putNumber("Front Left Module Angle", state.ModuleStates[0].angle.getRotations());
             SmartDashboard.putNumber("Front Right Module Angle", state.ModuleStates[1].angle.getRotations());
@@ -397,7 +397,4 @@ public class DriveTrainTuner extends SubsystemBase {
         if (Math.abs(value) < deadband) return 0;
         return (value - (deadband * Math.signum(value)))/(1 - deadband);
     }
-    
 }
-
-

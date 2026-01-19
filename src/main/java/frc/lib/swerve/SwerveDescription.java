@@ -1,10 +1,10 @@
 package frc.lib.swerve;
 
 import com.ctre.phoenix6.configs.Slot0Configs;
-import com.ctre.phoenix6.mechanisms.swerve.SwerveDrivetrainConstants;
-import com.ctre.phoenix6.mechanisms.swerve.SwerveModuleConstants;
-import com.ctre.phoenix6.mechanisms.swerve.SwerveModuleConstantsFactory;
-import com.ctre.phoenix6.mechanisms.swerve.SwerveModuleConstants.SteerFeedbackType;
+import com.ctre.phoenix6.mechanisms.swerve.LegacySwerveDrivetrainConstants;
+import com.ctre.phoenix6.mechanisms.swerve.LegacySwerveModuleConstants;
+import com.ctre.phoenix6.mechanisms.swerve.LegacySwerveModuleConstantsFactory;
+import com.ctre.phoenix6.mechanisms.swerve.LegacySwerveModuleConstants.SteerFeedbackType;
 import edu.wpi.first.math.geometry.Translation2d;
 
 /**
@@ -53,10 +53,10 @@ public class SwerveDescription {
                                 PidGains angleGains,
                                 int pigeonCANId,
                                 boolean invertSteerMotors){
-        SwerveDrivetrainConstants swerveConstants = new SwerveDrivetrainConstants()
+        LegacySwerveDrivetrainConstants swerveConstants = new LegacySwerveDrivetrainConstants()
                                                     .withPigeon2Id(pigeonCANId)
                                                     .withCANbusName("rio");
-        SwerveModuleConstantsFactory globalModuleConstants = new SwerveModuleConstantsFactory()
+        LegacySwerveModuleConstantsFactory globalModuleConstants = new LegacySwerveModuleConstantsFactory()
                                     .withDriveMotorGearRatio(gearing.driveRatio)
                                     .withSteerMotorGearRatio(gearing.steerRatio)
                                     .withWheelRadius(gearing.wheelRadius)
@@ -66,12 +66,12 @@ public class SwerveDescription {
                                     .withSpeedAt12VoltsMps(physics.freeSpeed)
                                     .withSteerInertia(physics.angularInertia)
                                     .withDriveInertia(physics.linearInertia)
-                                    .withFeedbackSource(SteerFeedbackType.FusedCANcoder)
+                                    .withFeedbackSource(SteerFeedbackType.RemoteCANcoder)
                                     .withCouplingGearRatio(gearing.steerCouplingRatio)
                                     .withSteerMotorInverted(invertSteerMotors);
 
     
-        SwerveModuleConstants frontLeft = globalModuleConstants.createModuleConstants(
+        LegacySwerveModuleConstants frontLeft = globalModuleConstants.createModuleConstants(
             frontLeftIDs.steerMotor, 
             frontLeftIDs.driveMotor, 
             frontLeftIDs.encoder, 
@@ -81,7 +81,7 @@ public class SwerveDescription {
             inversion.frontLeft
         );
 
-        SwerveModuleConstants frontRight = globalModuleConstants.createModuleConstants(
+        LegacySwerveModuleConstants frontRight = globalModuleConstants.createModuleConstants(
             frontRightIDs.steerMotor, 
             frontRightIDs.driveMotor, 
             frontRightIDs.encoder, 
@@ -91,7 +91,7 @@ public class SwerveDescription {
             inversion.frontRight
         );
 
-        SwerveModuleConstants rearLeft = globalModuleConstants.createModuleConstants(
+        LegacySwerveModuleConstants rearLeft = globalModuleConstants.createModuleConstants(
             rearLeftIDs.steerMotor, 
             rearLeftIDs.driveMotor, 
             rearLeftIDs.encoder, 
@@ -101,7 +101,7 @@ public class SwerveDescription {
             inversion.rearLeft
         );
 
-        SwerveModuleConstants rearRight = globalModuleConstants.createModuleConstants(
+        LegacySwerveModuleConstants rearRight = globalModuleConstants.createModuleConstants(
             rearRightIDs.steerMotor, 
             rearRightIDs.driveMotor, 
             rearRightIDs.encoder, 
