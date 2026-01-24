@@ -211,6 +211,16 @@ public final class Constants {
     /** SDS MK4i - 6.12 : 1 */
     public static final double SDSMK4i_L3 = (6.12 / 1.0);
   }
+
+  public static final class Shooter {
+    public static final int shootMotorID = 0; //TODO
+    public static final double shootMotorSpeed = 67;//TODO
   }
+
+  public static final class ShooterFeed {
+    public static final int shootFeedMotorID = 1; //TODO
+    public static final int shootFeedMotorSpeed = 1;//TODO
+  }
+}
  
 

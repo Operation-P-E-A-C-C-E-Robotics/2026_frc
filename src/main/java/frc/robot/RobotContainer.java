@@ -12,8 +12,14 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.lib.util.ButtonMap;
+import frc.lib.util.ButtonMap.Button;
+import frc.lib.util.ButtonMap.OIEntry;
 import frc.robot.commands.drivetrain.PeaccyDrive;
 import frc.robot.subsystems.Swerve;
+import frc.robot.commands.BreathFire;
+import frc.robot.subsystems.ShootFeed;
+import frc.robot.subsystems.Shooter;
 
 
 public class RobotContainer {
@@ -28,6 +34,8 @@ public class RobotContainer {
   /* SUBSYSTEMS */
   //ONE OF THESE MUST BE COMMENTED OUT. ONLY USE THE TUNEABLE ONE FOR TUNING.
   private final Swerve driveTrain = new Swerve();
+  private final ShootFeed shootFeed = new ShootFeed();
+  private final Shooter shooter = new Shooter();
   // private final DriveTrainTuner driveTrainTuneable = new DriveTrainTuner();
 
   /* OI DEFINITIONS */
@@ -35,9 +43,18 @@ public class RobotContainer {
   
   private final JoystickButton zeroButton = new JoystickButton(driverController, zeroButtonNo); //for debugging
 
+  private final OIEntry[] driverMap = new OIEntry[] 
+  {
+    Button.onHold(shootFeed.Intake(), 1), //TODO
+    Button.onHold(shooter.Shoot(), 2), //TODO
+
+  };
+
 
   /* COMMANDS */
   private final PeaccyDrive peaccyDrive = new PeaccyDrive(driveTrain);
+  //private final BreathFire breathFire = new BreathFire();
+
 
   private final SendableChooser<Command> autoChooser = AutoBuilder.buildAutoChooser();
 
@@ -58,7 +75,9 @@ public class RobotContainer {
                .isOpenLoop     (() -> false);
     driveTrain.setDefaultCommand(peaccyDrive);
     driveTrain.register(driverController);
+    new ButtonMap(driverController).map(driverMap);
   }
+
 
 
   public Command getAutonomousCommand() {
