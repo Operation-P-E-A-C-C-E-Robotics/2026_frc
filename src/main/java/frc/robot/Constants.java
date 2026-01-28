@@ -7,6 +7,8 @@ package frc.robot;
 import java.io.IOException;
 import java.util.function.DoubleFunction;
 
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.signals.GravityTypeValue;
 import com.pathplanner.lib.config.ModuleConfig;
 import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.config.RobotConfig;
@@ -213,13 +215,30 @@ public final class Constants {
   }
 
   public static final class Shooter {
-    public static final int shootMotorID = 0; //TODO
-    public static final double shootMotorSpeed = 67;//TODO
+    public static final int shootMotorID = 27; //TODO
+    public static final double targetRPS = 1; //TODO
+    public static final double shootMotorSpeed = 0.5;//TODO
+
+    public static TalonFXConfiguration motorConfig = new TalonFXConfiguration();
+    static {
+    motorConfig.Slot0.withGravityType(GravityTypeValue.Arm_Cosine)
+                       .withKP(1)
+                       .withKI(0)
+                       .withKD(0)
+                       .withKS(-0.8575)
+                       .withKV(0)
+                       .withKA(0)
+                       .withKG(0); }
   }
 
   public static final class ShooterFeed {
     public static final int shootFeedMotorID = 1; //TODO
     public static final int shootFeedMotorSpeed = 1;//TODO
+  }
+
+  public static final class Climber {
+    public static final int climberServoID = 0;
+    public static final double deployAngle = 90;
   }
 }
  

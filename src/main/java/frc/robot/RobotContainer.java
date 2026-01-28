@@ -20,6 +20,7 @@ import frc.robot.subsystems.Swerve;
 import frc.robot.commands.BreathFire;
 import frc.robot.subsystems.ShootFeed;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Climber;
 
 
 public class RobotContainer {
@@ -36,6 +37,7 @@ public class RobotContainer {
   private final Swerve driveTrain = new Swerve();
   private final ShootFeed shootFeed = new ShootFeed();
   private final Shooter shooter = new Shooter();
+  private final Climber climber = new Climber();
   // private final DriveTrainTuner driveTrainTuneable = new DriveTrainTuner();
 
   /* OI DEFINITIONS */
@@ -47,6 +49,8 @@ public class RobotContainer {
   {
     Button.onHold(shootFeed.Intake(), 1), //TODO
     Button.onHold(shooter.Shoot(), 2), //TODO
+    Button.toggle(climber.DeployClimber(), 5), //TODO
+    
 
   };
 
@@ -60,6 +64,7 @@ public class RobotContainer {
 
   public RobotContainer() {
     configureBindings();
+
     SmartDashboard.putData("AUTO MODE", autoChooser);
   }
 
@@ -76,6 +81,9 @@ public class RobotContainer {
     driveTrain.setDefaultCommand(peaccyDrive);
     driveTrain.register(driverController);
     new ButtonMap(driverController).map(driverMap);
+
+    shooter.setDefaultCommand(shooter.IdleShooter());
+    climber.setDefaultCommand(climber.RestClimber());
   }
 
 
