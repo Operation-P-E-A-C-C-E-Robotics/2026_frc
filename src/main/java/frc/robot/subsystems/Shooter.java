@@ -62,7 +62,6 @@ public void setSpeed(double speed)
     return this.run(() -> {
       setRPS(targetRPS);});
       
-      
   }
   
   public Command IdleShooter()

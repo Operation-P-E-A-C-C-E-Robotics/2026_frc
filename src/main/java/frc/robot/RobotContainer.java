@@ -21,7 +21,9 @@ import frc.robot.commands.BreathFire;
 import frc.robot.subsystems.ShootFeed;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Climber;
-
+import frc.robot.subsystems.Hood;
+import frc.robot.subsystems.IntakeDeploy;
+import frc.robot.subsystems.Intake;
 
 public class RobotContainer {
   /* OI CONSTANTS */
@@ -38,6 +40,9 @@ public class RobotContainer {
   private final ShootFeed shootFeed = new ShootFeed();
   private final Shooter shooter = new Shooter();
   private final Climber climber = new Climber();
+  private final Hood hood = new Hood();
+  private final IntakeDeploy intakeDeploy = new IntakeDeploy();
+  private final Intake intake = new Intake();
   // private final DriveTrainTuner driveTrainTuneable = new DriveTrainTuner();
 
   /* OI DEFINITIONS */
@@ -50,6 +55,9 @@ public class RobotContainer {
     Button.onHold(shootFeed.Intake(), 1), //TODO
     Button.onHold(shooter.Shoot(), 2), //TODO
     Button.toggle(climber.DeployClimber(), 5), //TODO
+    Button.onHold(hood.SpinHoodMotors(), 3),
+    Button.onHold(intakeDeploy.DeployIntake(), 4),
+    Button.toggle(intake.IntakeStuff(), 8),
     
 
   };
@@ -58,7 +66,7 @@ public class RobotContainer {
   /* COMMANDS */
   private final PeaccyDrive peaccyDrive = new PeaccyDrive(driveTrain);
   //private final BreathFire breathFire = new BreathFire();
-
+  
 
   private final SendableChooser<Command> autoChooser = AutoBuilder.buildAutoChooser();
 
