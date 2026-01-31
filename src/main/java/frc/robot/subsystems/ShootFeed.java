@@ -7,11 +7,14 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.revrobotics.spark.SparkFlex;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
 
 import static frc.robot.Constants.ShooterFeed.*;
 
 public class ShootFeed extends SubsystemBase {
-  public TalonFX shootFeedMotor = new TalonFX(shootFeedMotorID);
+  //public TalonFX shootFeedMotor = new TalonFX(shootFeedMotorID);
+  public SparkFlex shootFeedMotor = new SparkFlex(shootFeedMotorID, MotorType.kBrushless);
   /** Creates a new ShootFeed. */
   public ShootFeed()
   {

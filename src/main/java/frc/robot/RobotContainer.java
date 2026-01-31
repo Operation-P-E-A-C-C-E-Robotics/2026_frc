@@ -22,6 +22,7 @@ import frc.robot.subsystems.ShootFeed;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Hood;
+import frc.robot.subsystems.HoppyWoppy;
 import frc.robot.subsystems.IntakeDeploy;
 import frc.robot.subsystems.Intake;
 
@@ -43,6 +44,7 @@ public class RobotContainer {
   private final Hood hood = new Hood();
   private final IntakeDeploy intakeDeploy = new IntakeDeploy();
   private final Intake intake = new Intake();
+  private final HoppyWoppy hoppyWoppy = new HoppyWoppy();
   // private final DriveTrainTuner driveTrainTuneable = new DriveTrainTuner();
 
   /* OI DEFINITIONS */
@@ -55,9 +57,10 @@ public class RobotContainer {
     Button.onHold(shootFeed.Intake(), 1), //TODO
     Button.onHold(shooter.Shoot(), 2), //TODO
     Button.toggle(climber.DeployClimber(), 5), //TODO
-    Button.onHold(hood.SpinHoodMotors(), 3),
-    Button.onHold(intakeDeploy.DeployIntake(), 4),
-    Button.toggle(intake.IntakeStuff(), 8),
+    Button.onHold(hood.SpinHoodMotors(), 3), //TODO
+    Button.onHold(intakeDeploy.DeployIntake(), 4), //TODO
+    Button.toggle(intake.IntakeStuff(), 8), //TODO
+    Button.onHold(hoppyWoppy.SortHopper(), 9), //TODO
     
 
   };

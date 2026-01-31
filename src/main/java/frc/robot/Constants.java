@@ -256,7 +256,9 @@ public final class Constants {
   public static final class Hopper{
     public static final int hopperSRXOneID = 0;//TODO
     public static final int hopperSRXTwoID = 0;//TODO
+    public static final int hopperFloorMotorID = 0;//TODO
     public static final double hopperSRXSpeed = 10;//TODO
+    public static final int hopperFloorSpeed = 1000;//TODO
   }
 }
  
