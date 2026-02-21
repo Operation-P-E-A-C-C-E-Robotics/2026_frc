@@ -232,33 +232,33 @@ public final class Constants {
   }
 
   public static final class ShooterFeed {
-    public static final int shootFeedMotorID = 1; //TODO
-    public static final int shootFeedMotorSpeed = 1;//TODO
+    public static final int shootFeedMotorID = 5;
+    public static final double shootFeedMotorSpeed = 0.2;
   }
 
   public static final class Climber {
-    public static final int climberServoID = 0; //TODO
-    public static final double deployAngle = 90;//TODO
+    public static final int climberServoID = 10;
+    public static final double deployAngle = 90;
   }
   
   public static final class Hood {
-    public static final int hoodMotorID = 0; //TODO
-    public static final double motorRotateSpeed = 100;//TODO
+    public static final int hoodMotorID = 9;
+    public static final double motorRotateSpeed = 0.2;
   }
   public static final class IntakeDeploy{
-    public static final int intakeDeployMotorID = 0;//TODO
-    public static final double intakeDeployspeed = 0;//TODO
+    public static final int intakeDeployMotorID = 6;
+    public static final double intakeDeployspeed = 0.2;
   }
   public static final class Intake{
-    public static final int intakeMotorID = 0;//TODO
-    public static final double intakeSpinSpeed = 1;//TODO
+    public static final int intakeMotorID = 7;
+    public static final double intakeSpinSpeed = 0.4;
   }
   public static final class Hopper{
-    public static final int hopperSRXOneID = 0;//TODO
-    public static final int hopperSRXTwoID = 0;//TODO
-    public static final int hopperFloorMotorID = 0;//TODO
-    public static final double hopperSRXSpeed = 10;//TODO
-    public static final int hopperFloorSpeed = 1000;//TODO
+    public static final int hopperSRXOneID = 12;
+    public static final int hopperSRXTwoID = 13;
+    public static final int hopperFloorMotorID = 11;
+    public static final double hopperSRXSpeed = 0.3;
+    public static final double hopperFloorSpeed = 0.3;
   }
 }
  
