@@ -27,11 +27,11 @@ public class HoppyWoppy extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 
-  public void SetSpeed(double srxOneSpeed, double srxTwoSpeed, double hopperFloorMotor)
+  public void SetSpeed(double srxOneSpeed, double srxTwoSpeed, double hopperFloorMotorSpeed)
   {
     hopperSRXOne.set(TalonSRXControlMode.PercentOutput, srxOneSpeed);
     hopperSRXTwo.set(TalonSRXControlMode.PercentOutput, srxTwoSpeed);
-    this.hopperFloorMotor.set(hopperFloorSpeed);
+    this.hopperFloorMotor.set(hopperFloorMotorSpeed);
 
   }
 

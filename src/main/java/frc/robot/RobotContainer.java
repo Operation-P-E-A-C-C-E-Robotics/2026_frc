@@ -57,10 +57,11 @@ public class RobotContainer {
     Button.onHold(shootFeed.Intake(), 1), //TODO
     Button.onHold(shooter.Shoot(), 2), //TODO
     Button.toggle(climber.DeployClimber(), 5), //TODO
-    Button.onHold(hood.SpinHoodMotors(), 3), //TODO
+    Button.onHold(hood.SpinHoodMotor(), 3), //TODO
     Button.onHold(intakeDeploy.DeployIntake(), 4), //TODO
     Button.toggle(intake.IntakeStuff(), 8), //TODO
     Button.onHold(hoppyWoppy.SortHopper(), 9), //TODO
+
     
 
   };
