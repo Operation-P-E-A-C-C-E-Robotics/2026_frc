@@ -10,9 +10,14 @@ import edu.wpi.first.wpilibj.Servo;
 import frc.lib.util.ServoMotor;
 import static frc.robot.Constants.Climber.*;
 
+import java.util.function.DoubleSupplier;
+
+import com.ctre.phoenix6.hardware.TalonFX;
+
 public class Climber extends SubsystemBase {
   /** Creates a new Climber. */
   public Servo climberMotor = new Servo(climberServoID);
+  public TalonFX winchMotor = new TalonFX(climberWinchMotorID);
   
   public Climber()
   {
@@ -25,17 +30,26 @@ public class Climber extends SubsystemBase {
     // This method will be called once per scheduler run
   }
   
-  public void SetClimber(double angle)
+  public void SetClimberServo(double angle)
   {
     climberMotor.setAngle(angle);
   }
 
+  public void SetClimberWinchSpeed(double speed)
+  {
+    winchMotor.set(speed);
+  }
+
   public Command DeployClimber()
   {
-    return this.run(() -> {SetClimber(deployAngle);});
+    return this.run(() -> {SetClimberServo(deployAngle);});
   }
   public Command RestClimber()
   {
-    return this.run(() -> {SetClimber(0);});
+    return this.run(() -> {SetClimberServo(0);});
+  }
+  public Command Winch(DoubleSupplier speed)
+  {
+    return this.run(() -> {SetClimberWinchSpeed(speed.getAsDouble());});
   }
 }

@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.lib.util.ButtonMap;
 import frc.lib.util.ButtonMap.Button;
+import frc.lib.util.ButtonMap.JoystickTrigger;
 import frc.lib.util.ButtonMap.OIEntry;
 import frc.robot.commands.drivetrain.PeaccyDrive;
 import frc.robot.subsystems.Swerve;
@@ -38,29 +39,30 @@ public class RobotContainer {
   /* SUBSYSTEMS */
   //ONE OF THESE MUST BE COMMENTED OUT. ONLY USE THE TUNEABLE ONE FOR TUNING.
   private final Swerve driveTrain = new Swerve();
-  private final ShootFeed shootFeed = new ShootFeed();
-  private final Shooter shooter = new Shooter();
-  private final Climber climber = new Climber();
-  private final Hood hood = new Hood();
-  private final IntakeDeploy intakeDeploy = new IntakeDeploy();
-  private final Intake intake = new Intake();
-  private final HoppyWoppy hoppyWoppy = new HoppyWoppy();
+  // private final ShootFeed shootFeed = new ShootFeed();
+  // private final Shooter shooter = new Shooter();
+  // private final Climber climber = new Climber();
+  // private final Hood hood = new Hood();
+  // private final IntakeDeploy intakeDeploy = new IntakeDeploy();
+  // private final Intake intake = new Intake();
+  // private final HoppyWoppy hoppyWoppy = new HoppyWoppy();
   // private final DriveTrainTuner driveTrainTuneable = new DriveTrainTuner();
 
   /* OI DEFINITIONS */
   private final Joystick driverController = new Joystick(0);
-  
+  private final Joystick operatorController = new Joystick(1);
   private final JoystickButton zeroButton = new JoystickButton(driverController, zeroButtonNo); //for debugging
 
   private final OIEntry[] driverMap = new OIEntry[] 
   {
-    Button.onHold(shootFeed.Intake(), 1), //TODO
-    Button.onHold(shooter.Shoot(), 2), //TODO
-    Button.toggle(climber.DeployClimber(), 5), //TODO
-    Button.onHold(hood.SpinHoodMotor(), 3), //TODO
-    Button.onHold(intakeDeploy.DeployIntake(), 4), //TODO
-    Button.toggle(intake.IntakeStuff(), 8), //TODO
-    Button.onHold(hoppyWoppy.SortHopper(), 9), //TODO
+    // Button.onHold(shootFeed.Intake(), 1), //TODO
+    // Button.onHold(shooter.Shoot(), 2), //TODO
+    // Button.toggle(climber.DeployClimber(), 5), //TODO
+    // JoystickTrigger.onMove(operatorController, climber.Winch(() -> -operatorController.getRawAxis(3)*0.3), 3, 0.15),
+    // JoystickTrigger.onMove(operatorController, hood.ControlHoodMotor(() -> -operatorController.getRawAxis(3)*0.3), 3, 0.15),
+    // Button.onHold(intakeDeploy.DeployIntake(), 4), //TODO
+    // Button.toggle(intake.IntakeStuff(), 8), //TODO
+    // Button.onHold(hoppyWoppy.SortHopper(), 9), //TODO
 
     
 
@@ -94,8 +96,10 @@ public class RobotContainer {
     driveTrain.register(driverController);
     new ButtonMap(driverController).map(driverMap);
 
-    shooter.setDefaultCommand(shooter.IdleShooter());
-    climber.setDefaultCommand(climber.RestClimber());
+    // shooter.setDefaultCommand(shooter.IdleShooter());
+    // climber.setDefaultCommand(climber.RestClimber());
+    // hoppyWoppy.setDefaultCommand(hoppyWoppy.StopHoppyWoppy());
+    // intakeDeploy.setDefaultCommand(intakeDeploy.Stop());
   }
 
 

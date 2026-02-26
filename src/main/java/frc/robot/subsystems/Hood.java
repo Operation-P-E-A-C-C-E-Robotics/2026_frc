@@ -8,6 +8,8 @@ import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import static frc.robot.Constants.Hood.*;
 
+import java.util.function.DoubleSupplier;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -22,13 +24,12 @@ public class Hood extends SubsystemBase {
     hoodMotor.set(speed);
   }
 
-  public Command SpinHoodMotor()
+  public Command ControlHoodMotor(DoubleSupplier speed)
   {
-    return this.run(() -> {setSpeed(motorRotateSpeed);});
+    return this.run(() -> {setSpeed(speed.getAsDouble());});
   }
-  
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
+
+  public enum HoodSetpoints {
+    
   }
 }

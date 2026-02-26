@@ -15,7 +15,7 @@ public class IntakeDeploy extends SubsystemBase {
   public TalonFX intakeDeploy = new TalonFX(intakeDeployMotorID);
 
   public IntakeDeploy() {
-
+    intakeDeploy.getConfigurator().apply(motorConfig);
   }
   public Command DeployIntake(){
     return this.run(() -> {setSpeed(intakeDeployspeed);});
@@ -29,5 +29,8 @@ public class IntakeDeploy extends SubsystemBase {
   {
     intakeDeploy.set(speed);
   }
-
+  public Command Stop()
+  {
+    return this.run(() -> {setSpeed(0);});
+  }
 }

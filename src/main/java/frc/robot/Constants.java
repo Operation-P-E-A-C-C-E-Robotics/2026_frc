@@ -83,23 +83,23 @@ public final class Constants {
 
 
 
-    /* CTRE SWERVE CONSTANTS */
+    /* CTRE SWERVE CONSTANTS  You need to measure and write these values down for swerve tuning. Is wheel distance */
     public static final Dimensions dimensions = new Dimensions(Units.inchesToMeters(18.75), Units.inchesToMeters(18.75));
 
-    public static final CANIDs frontLeftIDs =   new CANIDs(4,   5,    6); //module 0
+    public static final CANIDs frontLeftIDs =   new CANIDs(4,   5,    6); //module 0   YOU NEED TO SET THESE
     public static final CANIDs rearLeftIDs =   new CANIDs(7,   8,    9); //module 1
     public static final CANIDs rearRightIDs =   new CANIDs(10,   11,   12); //module 2
     public static final CANIDs frontRightIDs =    new CANIDs(13,  14,   15); //module 3
 
     public static final Gearing gearing = new Gearing(DriveGearRatios.SDSMK4i_L2, ((150.0 / 7.0) / 1.0), (3.807/2), 0);
     // public static final EncoderOffsets offsets = new EncoderOffsets(-0.488770, -0.225342, -0.224609, -0.906738); //todo these offsets are very wrong.
-    public static final EncoderOffsets offsets = new EncoderOffsets(
-      -0.409424, //Front Left, module 0
-      0.277344, //Front Right, module 3
-      -0.412109,  // Rear Left, module 1
-      -0.307861); //Rear Right, module 2
+    public static final EncoderOffsets offsets = new EncoderOffsets(  //YOU HAVE TO NEGATE THESE
+      -0.328125, //Front Left, module 0   
+      0.226074, //Front Right, module 3
+      -0.494141,  // Rear Left, module 1
+      -0.249023); //Rear Right, module 2
 
-    public static final Inversion inversion = new Inversion(false, true, false, true);
+    public static final Inversion inversion = new Inversion(false, false, false, false);
 
     //inertia only used for simulation
     public static final Physics physics = new Physics(0.05,0.01, Robot.isReal() ? 80 : 800, 7);
@@ -107,11 +107,12 @@ public final class Constants {
     
     public static final PidGains driveGains = new PidGains(2, 0, 0, 0.2, 0.4); 
     public static final PidGains angleGains = new PidGains(90, 0, 0.001, 0, 0);
-
-    public static final int pigeonCANId = 3;
+    
+    public static final int pigeonCANId = 3;  //TODO SWERVE DRIVE CHANGE PID ID TO WHAT ITS SET TO IN TUNER OR SMTHIN
     public static final boolean invertSteerMotors = Robot.isReal(); //cant invert in simulation which is dumb.
 
     /* HEADING CONTROLLER CONSTANTS */
+    //How aggressivley the robot snaps to an angle, ex in an auto when aiming to shoot.
     public static final double autoHeadingKP = 400;
     public static final double lockHeadingKP = 1000;
     public static final double autoHeadingKI = 0.0; //DOES NOTHING LOL
@@ -216,6 +217,9 @@ public final class Constants {
 
   public static final class Shooter {
     public static final int shootMotorID = 27; //TODO
+    public static final int shootFollowerOneID = 28;
+    public static final int shootFollowerTwoID = 29;
+    public static final int shootFollowerThreeID = 30;
     public static final double targetRPS = 1; //TODO
     public static final double shootMotorSpeed = 0.5;//TODO
 
@@ -234,10 +238,12 @@ public final class Constants {
   public static final class ShooterFeed {
     public static final int shootFeedMotorID = 5;
     public static final double shootFeedMotorSpeed = 0.2;
+
   }
 
   public static final class Climber {
     public static final int climberServoID = 10;
+    public static final int climberWinchMotorID = 14;
     public static final double deployAngle = 90;
   }
   
@@ -247,13 +253,23 @@ public final class Constants {
   }
   public static final class IntakeDeploy{
     public static final int intakeDeployMotorID = 6;
-    public static final double intakeDeployspeed = 0.2;
+    public static final double intakeDeployspeed = 0.2;    
+    public static TalonFXConfiguration motorConfig = new TalonFXConfiguration();
+    static {
+    motorConfig.Slot0.withGravityType(GravityTypeValue.Arm_Cosine)
+                       .withKP(1)
+                       .withKI(0)
+                       .withKD(0)
+                       .withKS(0)
+                       .withKV(0)
+                       .withKA(0)
+                       .withKG(0); }
   }
   public static final class Intake{
     public static final int intakeMotorID = 7;
     public static final double intakeSpinSpeed = 0.4;
   }
-  public static final class Hopper{
+  public static final class Hopper{   
     public static final int hopperSRXOneID = 12;
     public static final int hopperSRXTwoID = 13;
     public static final int hopperFloorMotorID = 11;

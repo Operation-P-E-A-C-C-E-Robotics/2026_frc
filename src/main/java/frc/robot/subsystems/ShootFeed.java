@@ -34,6 +34,12 @@ public class ShootFeed extends SubsystemBase {
   });
   }
   
+  public Command Stop()
+  {
+      return this.run(() -> {
+      setSpeed(0);});
+  }
+  
   @Override
   public void periodic() {
     

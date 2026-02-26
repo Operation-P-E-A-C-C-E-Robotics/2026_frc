@@ -19,18 +19,18 @@ public class HoppyWoppy extends SubsystemBase {
   private final TalonSRX hopperSRXTwo = new TalonSRX(hopperSRXTwoID);
   private final SparkFlex hopperFloorMotor = new SparkFlex(hopperFloorMotorID, MotorType.kBrushless);
   public HoppyWoppy() {
-    
+    hopperSRXTwo.follow(hopperSRXOne);
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
   }
-
+//The second double is useless but its not rly hurting anything so o well.
   public void SetSpeed(double srxOneSpeed, double srxTwoSpeed, double hopperFloorMotorSpeed)
   {
     hopperSRXOne.set(TalonSRXControlMode.PercentOutput, srxOneSpeed);
-    hopperSRXTwo.set(TalonSRXControlMode.PercentOutput, srxTwoSpeed);
+    //hopperSRXTwo.set(TalonSRXControlMode.PercentOutput, srxTwoSpeed);
     this.hopperFloorMotor.set(hopperFloorMotorSpeed);
 
   }
@@ -38,5 +38,10 @@ public class HoppyWoppy extends SubsystemBase {
   public Command SortHopper()
   {
     return this.run(() -> {SetSpeed(hopperSRXSpeed, hopperSRXSpeed, hopperFloorSpeed);});
+  }
+  
+  public Command StopHoppyWoppy()
+  {
+    return this.run(() -> {SetSpeed(0, 0, 0);});
   }
 }
