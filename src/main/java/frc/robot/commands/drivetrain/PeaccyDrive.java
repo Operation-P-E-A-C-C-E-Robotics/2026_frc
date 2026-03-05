@@ -231,7 +231,7 @@ public class PeaccyDrive extends Command {
                .withIsFieldCentric(isFieldRelative)
                //true will use pid control to maintain heading, or set to "isAutoHeading" if you want to only turn to specified headings 
                //rather than holding whatever direction you're facing :)
-               .withHoldHeading(true)
+               .withHoldHeading(false) //TODO re-enable later
                .withLockHeading(false)
                .withPositionCorrectionIterations(Constants.Swerve.teleopPositionCorrectionIters);
 

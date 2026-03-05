@@ -59,7 +59,7 @@ public final class Constants {
   public static final class Swerve {
     /* TELEOP */
     //speeds in m/s (probably)
-    public static final double teleopLinearMultiplier = 7.0;
+    public static final double teleopLinearMultiplier = 5.0;
     public static final double teleopAngularMultiplier = 7.0;
 
     //acceleration limits
@@ -86,31 +86,31 @@ public final class Constants {
     /* CTRE SWERVE CONSTANTS  You need to measure and write these values down for swerve tuning. Is wheel distance */
     public static final Dimensions dimensions = new Dimensions(Units.inchesToMeters(18.75), Units.inchesToMeters(18.75));
 
-    public static final CANIDs frontLeftIDs =   new CANIDs(4,   5,    6); //module 0   YOU NEED TO SET THESE
+    public static final CANIDs frontLeftIDs =   new CANIDs(4,   5,    6); //module 2   YOU NEED TO SET THESE
     public static final CANIDs rearLeftIDs =   new CANIDs(7,   8,    9); //module 1
-    public static final CANIDs rearRightIDs =   new CANIDs(10,   11,   12); //module 2
+    public static final CANIDs rearRightIDs =   new CANIDs(10,   11,   12); //module 4
     public static final CANIDs frontRightIDs =    new CANIDs(13,  14,   15); //module 3
 
     public static final Gearing gearing = new Gearing(DriveGearRatios.SDSMK4i_L2, ((150.0 / 7.0) / 1.0), (3.807/2), 0);
     // public static final EncoderOffsets offsets = new EncoderOffsets(-0.488770, -0.225342, -0.224609, -0.906738); //todo these offsets are very wrong.
     public static final EncoderOffsets offsets = new EncoderOffsets(  //YOU HAVE TO NEGATE THESE
-      -0.328125, //Front Left, module 0   
-      0.226074, //Front Right, module 3
-      -0.494141,  // Rear Left, module 1
-      -0.249023); //Rear Right, module 2
+      -0.328125+0.25, //Front Left, module 0   
+      0.226074+0.25, //Front Right, module 3
+      -0.494141+0.25,  // Rear Left, module 1
+      -0.249023+0.25); //Rear Right, module 2
 
-    public static final Inversion inversion = new Inversion(false, false, false, false);
+    public static final Inversion inversion = new Inversion(true, true, false, false);
 
     //inertia only used for simulation
     public static final Physics physics = new Physics(0.05,0.01, Robot.isReal() ? 80 : 800, 7);
     public static final double steerMotorCurrentLimit = Robot.isReal() ? 40 : 120; //amps
     
-    public static final PidGains driveGains = new PidGains(2, 0, 0, 0.2, 0.4); 
-    public static final PidGains angleGains = new PidGains(90, 0, 0.001, 0, 0);
+    public static final PidGains driveGains = new PidGains(0, 0, 0, 0.15, 0); 
+    public static final PidGains angleGains = new PidGains(40, 0, 0.000, 0, 0);
     
     public static final int pigeonCANId = 3;  //TODO SWERVE DRIVE CHANGE PID ID TO WHAT ITS SET TO IN TUNER OR SMTHIN
     public static final boolean invertSteerMotors = Robot.isReal(); //cant invert in simulation which is dumb.
-
+    
     /* HEADING CONTROLLER CONSTANTS */
     //How aggressivley the robot snaps to an angle, ex in an auto when aiming to shoot.
     public static final double autoHeadingKP = 400;

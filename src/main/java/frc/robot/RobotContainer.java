@@ -39,14 +39,14 @@ public class RobotContainer {
   /* SUBSYSTEMS */
   //ONE OF THESE MUST BE COMMENTED OUT. ONLY USE THE TUNEABLE ONE FOR TUNING.
   private final Swerve driveTrain = new Swerve();
-  // private final ShootFeed shootFeed = new ShootFeed();
-  // private final Shooter shooter = new Shooter();
-  // private final Climber climber = new Climber();
-  // private final Hood hood = new Hood();
-  // private final IntakeDeploy intakeDeploy = new IntakeDeploy();
-  // private final Intake intake = new Intake();
-  // private final HoppyWoppy hoppyWoppy = new HoppyWoppy();
-  // private final DriveTrainTuner driveTrainTuneable = new DriveTrainTuner();
+  private final ShootFeed shootFeed = new ShootFeed();
+  private final Shooter shooter = new Shooter();
+  private final Climber climber = new Climber();
+  private final Hood hood = new Hood();
+  private final IntakeDeploy intakeDeploy = new IntakeDeploy();
+  private final Intake intake = new Intake();
+  private final HoppyWoppy hoppyWoppy = new HoppyWoppy();
+  //private final DriveTrainTuner driveTrainTuneable = new DriveTrainTuner();
 
   /* OI DEFINITIONS */
   private final Joystick driverController = new Joystick(0);
@@ -55,14 +55,14 @@ public class RobotContainer {
 
   private final OIEntry[] driverMap = new OIEntry[] 
   {
-    // Button.onHold(shootFeed.Intake(), 1), //TODO
-    // Button.onHold(shooter.Shoot(), 2), //TODO
-    // Button.toggle(climber.DeployClimber(), 5), //TODO
-    // JoystickTrigger.onMove(operatorController, climber.Winch(() -> -operatorController.getRawAxis(3)*0.3), 3, 0.15),
-    // JoystickTrigger.onMove(operatorController, hood.ControlHoodMotor(() -> -operatorController.getRawAxis(3)*0.3), 3, 0.15),
-    // Button.onHold(intakeDeploy.DeployIntake(), 4), //TODO
-    // Button.toggle(intake.IntakeStuff(), 8), //TODO
-    // Button.onHold(hoppyWoppy.SortHopper(), 9), //TODO
+    Button.onHold(shootFeed.Intake(), 1), //TODO
+    Button.onHold(shooter.Shoot(), 2), //TODO
+    Button.toggle(climber.DeployClimber(), 5), //TODO
+    JoystickTrigger.onMove(operatorController, climber.Winch(() -> -operatorController.getRawAxis(3)*0.3), 3, 0.15),
+    JoystickTrigger.onMove(operatorController, hood.ControlHoodMotor(() -> -operatorController.getRawAxis(3)*0.3), 3, 0.15),
+    Button.onHold(intakeDeploy.DeployIntake(), 4), //TODO
+    Button.onHold(intake.IntakeStuff(), 8), //TODO
+    Button.onHold(hoppyWoppy.SortHopper(), 9), //TODO
 
     
 
@@ -74,12 +74,12 @@ public class RobotContainer {
   //private final BreathFire breathFire = new BreathFire();
   
 
-  private final SendableChooser<Command> autoChooser = AutoBuilder.buildAutoChooser();
+  // private final SendableChooser<Command> autoChooser = AutoBuilder.buildAutoChooser();
 
   public RobotContainer() {
     configureBindings();
 
-    SmartDashboard.putData("AUTO MODE", autoChooser);
+    // SmartDashboard.putData("AUTO MODE", autoChooser);
   }
 
   private void configureBindings() {
@@ -96,16 +96,17 @@ public class RobotContainer {
     driveTrain.register(driverController);
     new ButtonMap(driverController).map(driverMap);
 
-    // shooter.setDefaultCommand(shooter.IdleShooter());
-    // climber.setDefaultCommand(climber.RestClimber());
-    // hoppyWoppy.setDefaultCommand(hoppyWoppy.StopHoppyWoppy());
-    // intakeDeploy.setDefaultCommand(intakeDeploy.Stop());
+    shooter.setDefaultCommand(shooter.IdleShooter());
+    climber.setDefaultCommand(climber.RestClimber());
+    hoppyWoppy.setDefaultCommand(hoppyWoppy.StopHoppyWoppy());
+    intakeDeploy.setDefaultCommand(intakeDeploy.Stop());
   }
 
 
 
   public Command getAutonomousCommand() {
     // return AutoBuilder.followPath(PathPlannerPath.fromPathFile("ExamplePathE"));
-    return new PathPlannerAuto("ExamplePathE");
+    // return new PathPlannerAuto("ExamplePathE");
+    return null;
   }
 }
