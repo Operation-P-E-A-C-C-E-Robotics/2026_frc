@@ -10,6 +10,7 @@ import static frc.robot.Constants.Hood.*;
 
 import java.util.function.DoubleSupplier;
 
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -30,6 +31,20 @@ public class Hood extends SubsystemBase {
   }
 
   public enum HoodSetpoints {
+    angleOne(Rotation2d.fromDegrees(0.0)),
+    angleTwo(Rotation2d.fromDegrees(1)),
+    angleThree(Rotation2d.fromDegrees(2)),
+    angleFour(Rotation2d.fromDegrees(4));
+
+    private Rotation2d angle;
     
+    HoodSetpoints(Rotation2d angle) {
+      this.angle = angle;
+    }
+
+    public Rotation2d getRotation() {
+      return angle;
+    }
   }
+
 }

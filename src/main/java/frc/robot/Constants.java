@@ -242,17 +242,17 @@ public final class Constants {
   }
 
   public static final class Climber {
-    public static final int climberServoID = 10;
+    public static final int climberServoID = 10; //TODO
     public static final int climberWinchMotorID = 14;
     public static final double deployAngle = 90;
   }
   
   public static final class Hood {
-    public static final int hoodMotorID = 9;
+    public static final int hoodMotorID = 20;
     public static final double motorRotateSpeed = 0.2;
   }
   public static final class IntakeDeploy{
-    public static final int intakeDeployMotorID = 6;
+    public static final int intakeDeployMotorID = 6; //TODO
     public static final double intakeDeployspeed = 0.2;    
     public static TalonFXConfiguration motorConfig = new TalonFXConfiguration();
     static {
@@ -266,7 +266,7 @@ public final class Constants {
                        .withKG(0); }
   }
   public static final class Intake{
-    public static final int intakeMotorID = 7;
+    public static final int intakeMotorID = 7; 
     public static final double intakeSpinSpeed = 0.4;
   }
   public static final class Hopper{   
@@ -278,4 +278,3 @@ public final class Constants {
   }
 }
  
-
