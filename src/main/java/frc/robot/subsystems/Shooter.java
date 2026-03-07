@@ -13,7 +13,9 @@ import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.VelocityDutyCycle;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.MotorAlignmentValue;
+import com.ctre.phoenix6.configs.MotorOutputConfigs;
 
 import static frc.robot.Constants.Shooter.*;
 
@@ -33,8 +35,12 @@ public class Shooter extends SubsystemBase {
     shooterFollowerTwo.getConfigurator().apply(motorConfig);
     shooterFollowerThree.getConfigurator().apply(motorConfig);
     shooterFollowerOne.setControl(new Follower(shootMotorID, MotorAlignmentValue.Aligned)); 
-    shooterFollowerTwo.setControl(new Follower(shootMotorID, MotorAlignmentValue.Aligned)); 
-    shooterFollowerThree.setControl(new Follower(shootMotorID, MotorAlignmentValue.Aligned)); 
+    shooterFollowerTwo.setControl(new Follower(shootMotorID, MotorAlignmentValue.Opposed)); 
+    shooterFollowerThree.setControl(new Follower(shootMotorID, MotorAlignmentValue.Opposed)); 
+    // shooterMotor.getConfigurator().apply(new MotorOutputConfigs().withInverted(InvertedValue.Clockwise_Positive));
+    // shooterFollowerOne.getConfigurator().apply(new MotorOutputConfigs().withInverted(InvertedValue.Clockwise_Positive));
+    // shooterFollowerTwo.getConfigurator().apply(new MotorOutputConfigs().withInverted(InvertedValue.CounterClockwise_Positive));
+    // shooterFollowerThree.getConfigurator().apply(new MotorOutputConfigs().withInverted(InvertedValue.CounterClockwise_Positive));
     //System.out.println(shooterMotor.getVelocity().toString());
   }
 
@@ -72,6 +78,6 @@ public void setSpeed(double speed)
   
   public Command IdleShooter()
   {
-    return this.run(() -> {setSpeed(0);});
+    return this.run(() -> {setSpeed(0 );});  //TODO THIS IS TEMPORARY AND SHIULD BE 0 LATER
   }
 }

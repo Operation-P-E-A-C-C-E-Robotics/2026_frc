@@ -23,7 +23,7 @@ public class ShootFeed extends SubsystemBase {
 
   public void setSpeed(double speed)
   {
-    shootFeedMotor.set(speed);
+    shootFeedMotor.set(-speed);
   }
   
   public Command Intake()

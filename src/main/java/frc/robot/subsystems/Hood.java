@@ -4,17 +4,13 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix6.controls.MotionMagicExpoVoltage;
+import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
-import com.revrobotics.spark.SparkClosedLoopController;
-import com.revrobotics.spark.SparkFlex;
-import com.revrobotics.spark.SparkBase.ControlType;
-import com.revrobotics.spark.SparkLowLevel.MotorType;
 import static frc.robot.Constants.Hood.*;
 
 import java.util.function.DoubleSupplier;
 
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -26,6 +22,8 @@ public class Hood extends SubsystemBase {
 
   public Hood() 
   {
+    hoodMotor.getConfigurator().apply(motorConfig);
+    hoodMotor.setPosition(0);
     // hoodMotorController = hoodMotor.getClosedLoopController();
   }
 
@@ -37,11 +35,7 @@ public class Hood extends SubsystemBase {
 
   public void setSpeed(double speed)
   {
-    if(speed <= -0.07 || speed >= 0.07)
-    {
-      hoodMotor.set(speed);      
-    }
-
+    hoodMotor.set(speed);  
   }
 
    // *manually
@@ -52,20 +46,20 @@ public class Hood extends SubsystemBase {
 
   public Command GoToHoodSetpoint(HoodSetpoints rotation)
   {
-    return this.run(() -> setPosition(rotation.getRotation() / hoodRotationsPerMotorRotations));
+    return this.run(() -> setPosition(rotation.getRotation()));
   }
 
   public void setPosition(double rotation)
   {
     // hoodMotorController.setSetpoint(rotation, ControlType.kPosition);
-    hoodMotor.setPosition(rotation);
+    hoodMotor.setControl(new MotionMagicExpoVoltage(rotation));
   }
 
   public enum HoodSetpoints { //all values DEFINETLEY neeed to be adjusted btw
-    angleOne((0.0)),
-    angleTwo((0.1)),
-    angleThree((0.15)),
-    angleFour((0.2));
+    angleOne(1),
+    angleTwo(2),
+    angleThree(3),
+    angleFour(4);
 
     private double angle;
     
@@ -76,6 +70,11 @@ public class Hood extends SubsystemBase {
     public double getRotation() {
       return angle;
     }
+  }
+
+  public Command StoppyWoppy()
+  {
+    return this.run(() -> {setSpeed(0);});
   }
 
 }

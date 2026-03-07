@@ -15,11 +15,11 @@ import static frc.robot.Constants.Hopper.*;
 
 public class HoppyWoppy extends SubsystemBase {
   /** Creates a new HoppyWoppy. */
-  private final TalonSRX hopperSRXOne = new TalonSRX(hopperSRXOneID);
-  private final TalonSRX hopperSRXTwo = new TalonSRX(hopperSRXTwoID);
+  //private final TalonSRX hopperSRXOne = new TalonSRX(hopperSRXOneID);
+  //private final TalonSRX hopperSRXTwo = new TalonSRX(hopperSRXTwoID);
   private final SparkFlex hopperFloorMotor = new SparkFlex(hopperFloorMotorID, MotorType.kBrushless);
   public HoppyWoppy() {
-    hopperSRXTwo.follow(hopperSRXOne);
+    //hopperSRXTwo.follow(hopperSRXOne);
   }
 
   @Override
@@ -29,7 +29,7 @@ public class HoppyWoppy extends SubsystemBase {
 //The second double is useless but its not rly hurting anything so o well.
   public void SetSpeed(double srxOneSpeed, double srxTwoSpeed, double hopperFloorMotorSpeed)
   {
-    hopperSRXOne.set(TalonSRXControlMode.PercentOutput, srxOneSpeed);
+    //hopperSRXOne.set(TalonSRXControlMode.PercentOutput, srxOneSpeed);
     //hopperSRXTwo.set(TalonSRXControlMode.PercentOutput, srxTwoSpeed);
     this.hopperFloorMotor.set(hopperFloorMotorSpeed);
 

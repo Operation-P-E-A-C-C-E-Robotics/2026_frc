@@ -9,6 +9,8 @@ import java.util.function.DoubleFunction;
 
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.signals.GravityTypeValue;
+import com.ctre.phoenix6.signals.InvertedValue;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.pathplanner.lib.config.ModuleConfig;
 import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.config.RobotConfig;
@@ -225,18 +227,23 @@ public final class Constants {
 
     public static TalonFXConfiguration motorConfig = new TalonFXConfiguration();
     static {
-    motorConfig.Slot0.withGravityType(GravityTypeValue.Arm_Cosine)
-                       .withKP(1)
-                       .withKI(0)
-                       .withKD(0)
-                       .withKS(-0.8575)
-                       .withKV(0)
-                       .withKA(0)
-                       .withKG(0); }
+      motorConfig.Slot0.withGravityType(GravityTypeValue.Arm_Cosine)
+                        .withKP(1)
+                        .withKI(0)
+                        .withKD(0)
+                        .withKS(-0.8575)
+                        .withKV(0)
+                        .withKA(0)
+                        .withKG(0); 
+      motorConfig.CurrentLimits.StatorCurrentLimitEnable = false;
+      motorConfig.CurrentLimits.SupplyCurrentLimitEnable = false;
+      motorConfig.MotorOutput.NeutralMode = NeutralModeValue.Coast;
+      motorConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
+    }
   }
 
   public static final class ShooterFeed {
-    public static final int shootFeedMotorID = 5;
+    public static final int shootFeedMotorID = 33;
     public static final double shootFeedMotorSpeed = 0.2;
 
   }
@@ -250,7 +257,22 @@ public final class Constants {
   public static final class Hood {
     public static final int hoodMotorID = 20;
     public static final double motorRotateSpeed = 0.2;
-    public static final double hoodRotationsPerMotorRotations = (1/10) * (16/250);
+    public static final double motorRotationsPerHoodRotations = (10/1) * (250/16);
+    public static TalonFXConfiguration motorConfig = new TalonFXConfiguration();
+    static {
+    motorConfig.Slot0.withGravityType(GravityTypeValue.Elevator_Static)
+                       .withKP(30)
+                       .withKI(0)
+                       .withKD(0)
+                       .withKS(0)
+                       .withKV(0)
+                       .withKA(0)
+                       .withKG(0); 
+    motorConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
+    motorConfig.MotionMagic.MotionMagicExpo_kV = 0.2;
+    motorConfig.MotionMagic.MotionMagicExpo_kA = 0.2;
+                       
+  }
   }
   public static final class IntakeDeploy{
     public static final int intakeDeployMotorID = 18; //TODO
@@ -258,7 +280,7 @@ public final class Constants {
     public static TalonFXConfiguration motorConfig = new TalonFXConfiguration();
     static {
     motorConfig.Slot0.withGravityType(GravityTypeValue.Arm_Cosine)
-                       .withKP(1)
+                       .withKP(0)
                        .withKI(0)
                        .withKD(0)
                        .withKS(0)
@@ -267,13 +289,13 @@ public final class Constants {
                        .withKG(0); }
   }
   public static final class Intake{
-    public static final int intakeMotorID = 17; 
+    public static final int intakeMotorID = 60; 
     public static final double intakeSpinSpeed = 0.4;
   }
   public static final class Hopper{   
-    public static final int hopperSRXOneID = 42;
-    public static final int hopperSRXTwoID = 41;
-    public static final int hopperFloorMotorID = 11;
+    //public static final int hopperSRXOneID = 42;
+    //public static final int hopperSRXTwoID = 41;
+    public static final int hopperFloorMotorID = 31;
     public static final double hopperSRXSpeed = 0.3;
     public static final double hopperFloorSpeed = 0.3;
   }

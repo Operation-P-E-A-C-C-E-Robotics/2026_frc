@@ -58,19 +58,29 @@ public class RobotContainer {
   private final OIEntry[] driverMap = new OIEntry[] 
   {
     Button.onHold(shootFeed.Intake(), 1), //TODO
-    Button.onHold(shooter.Shoot(), 2), //TODO
-    Button.toggle(climber.DeployClimber(), 5), //TODO
-    JoystickTrigger.onMove(operatorController, climber.Winch(() -> -operatorController.getRawAxis(3)*0.3), 3, 0.10),
-    JoystickTrigger.onMove(operatorController, hood.ControlHoodMotor(() -> -operatorController.getRawAxis(3)*0.3), 3, 0.15),
-    SimplePOV.onPress(hood.GoToHoodSetpoint(HoodSetpoints.angleOne), 4),
-    SimplePOV.onPress(hood.GoToHoodSetpoint(HoodSetpoints.angleFour), 1),
-    SimplePOV.onPress(hood.GoToHoodSetpoint(HoodSetpoints.angleThree), 2),
-    SimplePOV.onPress(hood.GoToHoodSetpoint(HoodSetpoints.angleTwo), 3),
-    Button.onHold(intakeDeploy.DeployIntake(), 4), //TODO
+    // Button.onHold(shooter.Shoot(), 2), //TODO
+    // Button.toggle(climber.DeployClimber(), 5), //TODO
+    // Button.onHold(intakeDeploy.DeployIntake(), 4), //TODO
     Button.onHold(intake.IntakeStuff(), 8), //TODO
     Button.onHold(hoppyWoppy.SortHopper(), 9), //TODO
 
     
+
+  };
+
+  private final OIEntry[] operatorMap = new OIEntry[] 
+  {
+    
+    JoystickTrigger.onMove(operatorController, climber.Winch(() -> -operatorController.getRawAxis(5)*0.3), 3, 0.10),
+    JoystickTrigger.onMove(operatorController, hood.ControlHoodMotor(() -> -operatorController.getRawAxis(1)*0.6), 1, 0.15),
+    SimplePOV.onHold(hood.GoToHoodSetpoint(HoodSetpoints.angleOne), 0),
+    SimplePOV.onHold(hood.GoToHoodSetpoint(HoodSetpoints.angleFour), 270),
+    SimplePOV.onHold(hood.GoToHoodSetpoint(HoodSetpoints.angleThree), 360),
+    SimplePOV.onHold(hood.GoToHoodSetpoint(HoodSetpoints.angleTwo), 90),
+    Button.onHold(shootFeed.Intake(), 6), //TODO
+    Button.onHold(hoppyWoppy.SortHopper(), 6), //TODO
+    Button.onHold(intake.IntakeStuff(), 5), //TODO
+
 
   };
 
@@ -100,12 +110,17 @@ public class RobotContainer {
                .isOpenLoop     (() -> false);
     driveTrain.setDefaultCommand(peaccyDrive);
     driveTrain.register(driverController);
-    new ButtonMap(operatorController).map(driverMap);
+    new ButtonMap(driverController).map(driverMap);
+    new ButtonMap(operatorController).map(operatorMap);
+
 
     shooter.setDefaultCommand(shooter.IdleShooter());
     climber.setDefaultCommand(climber.RestClimber());
     hoppyWoppy.setDefaultCommand(hoppyWoppy.StopHoppyWoppy());
     intakeDeploy.setDefaultCommand(intakeDeploy.Stop());
+    intake.setDefaultCommand(intake.Stop());
+    shootFeed.setDefaultCommand(shootFeed.Stop());
+    hood.setDefaultCommand(hood.StoppyWoppy());
   }
 
 
