@@ -16,8 +16,10 @@ import frc.lib.util.ButtonMap;
 import frc.lib.util.ButtonMap.Button;
 import frc.lib.util.ButtonMap.JoystickTrigger;
 import frc.lib.util.ButtonMap.OIEntry;
+import frc.lib.util.ButtonMap.SimplePOV;
 import frc.robot.commands.drivetrain.PeaccyDrive;
 import frc.robot.subsystems.Swerve;
+import frc.robot.subsystems.Hood.HoodSetpoints;
 import frc.robot.commands.BreathFire;
 import frc.robot.subsystems.ShootFeed;
 import frc.robot.subsystems.Shooter;
@@ -58,8 +60,12 @@ public class RobotContainer {
     Button.onHold(shootFeed.Intake(), 1), //TODO
     Button.onHold(shooter.Shoot(), 2), //TODO
     Button.toggle(climber.DeployClimber(), 5), //TODO
-    JoystickTrigger.onMove(operatorController, climber.Winch(() -> -operatorController.getRawAxis(3)*0.3), 3, 0.15),
+    JoystickTrigger.onMove(operatorController, climber.Winch(() -> -operatorController.getRawAxis(3)*0.3), 3, 0.10),
     JoystickTrigger.onMove(operatorController, hood.ControlHoodMotor(() -> -operatorController.getRawAxis(3)*0.3), 3, 0.15),
+    SimplePOV.onPress(hood.GoToHoodSetpoint(HoodSetpoints.angleOne), 4),
+    SimplePOV.onPress(hood.GoToHoodSetpoint(HoodSetpoints.angleFour), 1),
+    SimplePOV.onPress(hood.GoToHoodSetpoint(HoodSetpoints.angleThree), 2),
+    SimplePOV.onPress(hood.GoToHoodSetpoint(HoodSetpoints.angleTwo), 3),
     Button.onHold(intakeDeploy.DeployIntake(), 4), //TODO
     Button.onHold(intake.IntakeStuff(), 8), //TODO
     Button.onHold(hoppyWoppy.SortHopper(), 9), //TODO

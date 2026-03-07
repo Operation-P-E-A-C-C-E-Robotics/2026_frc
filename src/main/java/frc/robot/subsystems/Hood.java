@@ -4,7 +4,10 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkFlex;
+import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import static frc.robot.Constants.Hood.*;
 
@@ -17,32 +20,56 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class Hood extends SubsystemBase {
   /** Creates a new Hood. */
   private final SparkFlex hoodMotor = new SparkFlex(hoodMotorID, MotorType.kBrushless);
-  public Hood() {
+  private final SparkClosedLoopController hoodMotorController;
+  public Hood() 
+  {
+    hoodMotorController = hoodMotor.getClosedLoopController();
+  }
+
+  @Override
+  public void periodic()
+  {
+
   }
 
   public void setSpeed(double speed)
   {
-    hoodMotor.set(speed);
+    if(speed <= -0.07 || speed >= 0.07)
+    {
+      hoodMotor.set(speed);      
+    }
+
   }
 
+   // *manually
   public Command ControlHoodMotor(DoubleSupplier speed)
   {
     return this.run(() -> {setSpeed(speed.getAsDouble());});
   }
 
-  public enum HoodSetpoints {
-    angleOne(Rotation2d.fromDegrees(0.0)),
-    angleTwo(Rotation2d.fromDegrees(1)),
-    angleThree(Rotation2d.fromDegrees(2)),
-    angleFour(Rotation2d.fromDegrees(4));
+  public Command GoToHoodSetpoint(HoodSetpoints rotation)
+  {
+    return this.run(() -> setPosition(rotation.getRotation()));
+  }
 
-    private Rotation2d angle;
+  public void setPosition(double rotation)
+  {
+    hoodMotorController.setSetpoint(rotation, ControlType.kPosition);
+  }
+
+  public enum HoodSetpoints { //all values DEFINETLEY neeed to be adjusted btw
+    angleOne((0.0)),
+    angleTwo((1)),
+    angleThree((2)),
+    angleFour((4));
+
+    private double angle;
     
-    HoodSetpoints(Rotation2d angle) {
+    HoodSetpoints(double angle) {
       this.angle = angle;
     }
 
-    public Rotation2d getRotation() {
+    public double getRotation() {
       return angle;
     }
   }
