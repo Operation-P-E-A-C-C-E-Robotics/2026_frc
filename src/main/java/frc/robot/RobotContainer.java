@@ -100,7 +100,7 @@ public class RobotContainer {
                .isOpenLoop     (() -> false);
     driveTrain.setDefaultCommand(peaccyDrive);
     driveTrain.register(driverController);
-    new ButtonMap(driverController).map(driverMap);
+    new ButtonMap(operatorController).map(driverMap);
 
     shooter.setDefaultCommand(shooter.IdleShooter());
     climber.setDefaultCommand(climber.RestClimber());

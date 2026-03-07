@@ -52,7 +52,7 @@ public class Hood extends SubsystemBase {
 
   public Command GoToHoodSetpoint(HoodSetpoints rotation)
   {
-    return this.run(() -> setPosition(rotation.getRotation() * hoodRotationsPerMotorRotations));
+    return this.run(() -> setPosition(rotation.getRotation() / hoodRotationsPerMotorRotations));
   }
 
   public void setPosition(double rotation)
