@@ -216,12 +216,12 @@ public final class Constants {
   }
 
   public static final class Shooter {
-    public static final int shootMotorID = 27; //TODO
-    public static final int shootFollowerOneID = 28;
-    public static final int shootFollowerTwoID = 29;
+    public static final int shootMotorID = 19; //TODO
+    public static final int shootFollowerOneID = 26;
+    public static final int shootFollowerTwoID = 27;
     public static final int shootFollowerThreeID = 30;
     public static final double targetRPS = 1; //TODO
-    public static final double shootMotorSpeed = 0.5;//TODO
+    public static final double shootMotorSpeed = 0.3;//TODO
 
     public static TalonFXConfiguration motorConfig = new TalonFXConfiguration();
     static {
@@ -242,7 +242,7 @@ public final class Constants {
   }
 
   public static final class Climber {
-    public static final int climberServoID = 10; //TODO
+    public static final int climberServoID = 14; //TODO
     public static final int climberWinchMotorID = 14;
     public static final double deployAngle = 90;
   }
@@ -252,8 +252,8 @@ public final class Constants {
     public static final double motorRotateSpeed = 0.2;
   }
   public static final class IntakeDeploy{
-    public static final int intakeDeployMotorID = 6; //TODO
-    public static final double intakeDeployspeed = 0.2;    
+    public static final int intakeDeployMotorID = 18; //TODO
+    public static final double intakeDeployspeed = 0.1;    
     public static TalonFXConfiguration motorConfig = new TalonFXConfiguration();
     static {
     motorConfig.Slot0.withGravityType(GravityTypeValue.Arm_Cosine)
@@ -266,12 +266,12 @@ public final class Constants {
                        .withKG(0); }
   }
   public static final class Intake{
-    public static final int intakeMotorID = 7; 
+    public static final int intakeMotorID = 17; 
     public static final double intakeSpinSpeed = 0.4;
   }
   public static final class Hopper{   
-    public static final int hopperSRXOneID = 12;
-    public static final int hopperSRXTwoID = 13;
+    public static final int hopperSRXOneID = 42;
+    public static final int hopperSRXTwoID = 41;
     public static final int hopperFloorMotorID = 11;
     public static final double hopperSRXSpeed = 0.3;
     public static final double hopperFloorSpeed = 0.3;
