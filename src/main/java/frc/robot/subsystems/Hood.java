@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix6.hardware.TalonFX;
 import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.spark.SparkBase.ControlType;
@@ -19,11 +20,13 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Hood extends SubsystemBase {
   /** Creates a new Hood. */
-  private final SparkFlex hoodMotor = new SparkFlex(hoodMotorID, MotorType.kBrushless);
-  private final SparkClosedLoopController hoodMotorController;
+  // private final SparkFlex hoodMotor = new SparkFlex(hoodMotorID, MotorType.kBrushless);
+  // private final SparkClosedLoopController hoodMotorController;
+  private final TalonFX hoodMotor = new TalonFX(hoodMotorID);
+
   public Hood() 
   {
-    hoodMotorController = hoodMotor.getClosedLoopController();
+    // hoodMotorController = hoodMotor.getClosedLoopController();
   }
 
   @Override
@@ -49,19 +52,20 @@ public class Hood extends SubsystemBase {
 
   public Command GoToHoodSetpoint(HoodSetpoints rotation)
   {
-    return this.run(() -> setPosition(rotation.getRotation()));
+    return this.run(() -> setPosition(rotation.getRotation() * hoodRotationsPerMotorRotations));
   }
 
   public void setPosition(double rotation)
   {
-    hoodMotorController.setSetpoint(rotation, ControlType.kPosition);
+    // hoodMotorController.setSetpoint(rotation, ControlType.kPosition);
+    hoodMotor.setPosition(rotation);
   }
 
   public enum HoodSetpoints { //all values DEFINETLEY neeed to be adjusted btw
     angleOne((0.0)),
-    angleTwo((1)),
-    angleThree((2)),
-    angleFour((4));
+    angleTwo((0.1)),
+    angleThree((0.15)),
+    angleFour((0.2));
 
     private double angle;
     

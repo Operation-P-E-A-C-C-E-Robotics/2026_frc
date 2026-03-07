@@ -250,6 +250,7 @@ public final class Constants {
   public static final class Hood {
     public static final int hoodMotorID = 20;
     public static final double motorRotateSpeed = 0.2;
+    public static final double hoodRotationsPerMotorRotations = (1/10) * (16/250);
   }
   public static final class IntakeDeploy{
     public static final int intakeDeployMotorID = 18; //TODO
