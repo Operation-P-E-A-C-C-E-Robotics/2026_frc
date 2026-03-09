@@ -27,7 +27,7 @@ public class HoppyWoppy extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 //The second double is useless but its not rly hurting anything so o well.
-  public void SetSpeed(double srxOneSpeed, double srxTwoSpeed, double hopperFloorMotorSpeed)
+  public void SetSpeed(double hopperFloorMotorSpeed)
   {
     //hopperSRXOne.set(TalonSRXControlMode.PercentOutput, srxOneSpeed);
     //hopperSRXTwo.set(TalonSRXControlMode.PercentOutput, srxTwoSpeed);
@@ -37,11 +37,11 @@ public class HoppyWoppy extends SubsystemBase {
 
   public Command SortHopper()
   {
-    return this.run(() -> {SetSpeed(hopperSRXSpeed, hopperSRXSpeed, hopperFloorSpeed);});
+    return this.run(() -> {SetSpeed(hopperFloorSpeed);});
   }
   
   public Command StopHoppyWoppy()
   {
-    return this.run(() -> {SetSpeed(0, 0, 0);});
+    return this.run(() -> {SetSpeed(0);});
   }
 }

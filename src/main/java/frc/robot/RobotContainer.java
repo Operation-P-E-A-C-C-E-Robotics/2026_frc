@@ -31,9 +31,9 @@ import frc.robot.subsystems.Intake;
 
 public class RobotContainer {
   /* OI CONSTANTS */
-  private final int translationAxis = 5; //forward/backward
-  private final int strafeAxis = 4;
-  private final int rotationAxis = 0;
+  private final int translationAxis = 1; //forward/backward
+  private final int strafeAxis = 0;
+  private final int rotationAxis = 4;
   private final int zeroButtonNo = 7;
 
   /* SENSORS */
@@ -56,31 +56,33 @@ public class RobotContainer {
   private final JoystickButton zeroButton = new JoystickButton(driverController, zeroButtonNo); //for debugging
 
   private final OIEntry[] driverMap = new OIEntry[] 
-  {
-    Button.onHold(shootFeed.Intake(), 1), //TODO
+  {  
+    // Button.onHold(shootFeed.Intake(), 1), //TODO
     // Button.onHold(shooter.Shoot(), 2), //TODO
-    // Button.toggle(climber.DeployClimber(), 5), //TODO
+    Button.toggle(climber.DeployClimber(), 5), //TODO
+    Button.onHold(intakeDeploy.DeployIntake(), 5),
     // Button.onHold(intakeDeploy.DeployIntake(), 4), //TODO
-    Button.onHold(intake.IntakeStuff(), 8), //TODO
-    Button.onHold(hoppyWoppy.SortHopper(), 9), //TODO
+    // Button.onHold(intake.IntakeStuff(), 8), //TODO
+    // Button.onHold(hoppyWoppy.SortHopper(), 9), //TODO
 
     
 
   };
 
   private final OIEntry[] operatorMap = new OIEntry[] 
-  {
+  { // change shooter to velocity control
     
     JoystickTrigger.onMove(operatorController, climber.Winch(() -> -operatorController.getRawAxis(5)*0.3), 3, 0.10),
     JoystickTrigger.onMove(operatorController, hood.ControlHoodMotor(() -> -operatorController.getRawAxis(1)*0.6), 1, 0.15),
-    SimplePOV.onHold(hood.GoToHoodSetpoint(HoodSetpoints.angleOne), 0),
+    SimplePOV.onHold(hood.GoToHoodSetpoint(HoodSetpoints.layup), 0),
     SimplePOV.onHold(hood.GoToHoodSetpoint(HoodSetpoints.angleFour), 270),
     SimplePOV.onHold(hood.GoToHoodSetpoint(HoodSetpoints.angleThree), 360),
     SimplePOV.onHold(hood.GoToHoodSetpoint(HoodSetpoints.angleTwo), 90),
     Button.onHold(shootFeed.Intake(), 6), //TODO
     Button.onHold(hoppyWoppy.SortHopper(), 6), //TODO
     Button.onHold(intake.IntakeStuff(), 5), //TODO
-
+    Button.onHold(intakeDeploy.DeployIntake(), 5),
+    Button.onHold(shooter.Shoot(), 8),
 
   };
 

@@ -61,8 +61,8 @@ public final class Constants {
   public static final class Swerve {
     /* TELEOP */
     //speeds in m/s (probably)
-    public static final double teleopLinearMultiplier = 5.0;
-    public static final double teleopAngularMultiplier = 7.0;
+    public static final double teleopLinearMultiplier = 3.0;
+    public static final double teleopAngularMultiplier = 4.0;
 
     //acceleration limits
     public static final double teleopLinearSpeedLimit = 5.0;
@@ -244,7 +244,7 @@ public final class Constants {
 
   public static final class ShooterFeed {
     public static final int shootFeedMotorID = 33;
-    public static final double shootFeedMotorSpeed = 0.2;
+    public static final double shootFeedMotorSpeed = 0.8;
 
   }
 
@@ -271,12 +271,15 @@ public final class Constants {
     motorConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
     motorConfig.MotionMagic.MotionMagicExpo_kV = 0.2;
     motorConfig.MotionMagic.MotionMagicExpo_kA = 0.2;
-                       
+    motorConfig.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
+    motorConfig.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
+    motorConfig.SoftwareLimitSwitch.ForwardSoftLimitThreshold = 6; //TODO
+    motorConfig.SoftwareLimitSwitch.ReverseSoftLimitThreshold = 0; //TODO
   }
   }
   public static final class IntakeDeploy{
     public static final int intakeDeployMotorID = 18; //TODO
-    public static final double intakeDeployspeed = 0.1;    
+    public static final double intakeDeployPos = 8;    //figure it out by turning robot on with intake up, putting intake down, and then looking at numbey wumbey
     public static TalonFXConfiguration motorConfig = new TalonFXConfiguration();
     static {
     motorConfig.Slot0.withGravityType(GravityTypeValue.Arm_Cosine)
@@ -290,14 +293,20 @@ public final class Constants {
   }
   public static final class Intake{
     public static final int intakeMotorID = 60; 
-    public static final double intakeSpinSpeed = 0.4;
+    public static final double intakeSpinSpeed = 0.7;
   }
   public static final class Hopper{   
     //public static final int hopperSRXOneID = 42;
     //public static final int hopperSRXTwoID = 41;
     public static final int hopperFloorMotorID = 31;
     public static final double hopperSRXSpeed = 0.3;
-    public static final double hopperFloorSpeed = 0.3;
+    public static final double hopperFloorSpeed = 0.;
   }
 }
  
+
+
+
+// Hi drive team!!!
+//-Avery 
+//good luck -sam

@@ -14,23 +14,31 @@ import static frc.robot.Constants.IntakeDeploy.*;
 public class IntakeDeploy extends SubsystemBase {
   public TalonFX intakeDeploy = new TalonFX(intakeDeployMotorID);
 
-  public IntakeDeploy() {
+  public IntakeDeploy() 
+  {
     intakeDeploy.getConfigurator().apply(motorConfig);
   }
-  public Command DeployIntake(){
-    return this.run(() -> {setSpeed(intakeDeployspeed);});
+  public Command DeployIntake()
+  {
+    return this.run(() -> {setSpeed(intakeDeployPos);});
   }
 
   @Override
-  public void periodic() {
+  public void periodic() 
+  {
     // This method will be called once per scheduler run
   }
-   public void setSpeed(double speed)
+
+  public void setSpeed(double speed)
   {
     intakeDeploy.set(speed);
+  }
+  public Command UnDeploy() 
+  {   //YOU NEED TO TUNE WHAT IS CURRENTLY 1, TO REFLECT WHERE A SAFE POSITION IS.
+    return this.run(() -> {intakeDeploy.setPosition(1);});
   }
   public Command Stop()
   {
     return this.run(() -> {setSpeed(0);});
-  }
+  } 
 }

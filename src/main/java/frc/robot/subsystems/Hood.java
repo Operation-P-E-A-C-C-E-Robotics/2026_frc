@@ -56,7 +56,7 @@ public class Hood extends SubsystemBase {
   }
 
   public enum HoodSetpoints { //all values DEFINETLEY neeed to be adjusted btw
-    angleOne(1),
+    layup(1),
     angleTwo(2),
     angleThree(3),
     angleFour(4);

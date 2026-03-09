@@ -71,9 +71,10 @@ public void setSpeed(double speed)
 
   public Command Shoot()
   {
-    return this.run(() -> {
-      setRPS(targetRPS);});
-      
+    // return this.run(() -> {
+    //   setRPS(targetRPS);});
+          return this.run(() -> {setSpeed(0.7 );});  //TODO THIS IS TEMPORARY AND SHIULD BE 0 LATER
+
   }
   
   public Command IdleShooter()
