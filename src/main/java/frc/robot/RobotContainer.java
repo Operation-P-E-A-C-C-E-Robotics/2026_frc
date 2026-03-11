@@ -72,8 +72,8 @@ public class RobotContainer {
   private final OIEntry[] operatorMap = new OIEntry[] 
   { // change shooter to velocity control
     
-    JoystickTrigger.onMove(operatorController, climber.Winch(() -> -operatorController.getRawAxis(5)*0.3), 3, 0.10),
-    JoystickTrigger.onMove(operatorController, hood.ControlHoodMotor(() -> -operatorController.getRawAxis(1)*0.6), 1, 0.15),
+    // TODO whenver climber is accepted as a member of society JoystickTrigger.onMove(operatorController, climber.Winch(() -> -operatorController.getRawAxis(5)*0.3), 3, 0.10),
+    JoystickTrigger.onMove(operatorController, hood.ControlHoodMotor(() -> -operatorController.getRawAxis(1)*-0.6), 1, 0.15),
     SimplePOV.onHold(hood.GoToHoodSetpoint(HoodSetpoints.layup), 0),
     SimplePOV.onHold(hood.GoToHoodSetpoint(HoodSetpoints.angleFour), 270),
     SimplePOV.onHold(hood.GoToHoodSetpoint(HoodSetpoints.angleThree), 360),
@@ -82,8 +82,8 @@ public class RobotContainer {
     Button.onHold(hoppyWoppy.SortHopper(), 6), //TODO
     Button.onHold(intake.IntakeStuff(), 5), //TODO
     Button.onHold(intakeDeploy.DeployIntake(), 5),
-    Button.onHold(shooter.Shoot(), 8),
-
+    // Button.onHold(shooter.Shoot(), 8),
+    JoystickTrigger.onMove(operatorController, shooter.Shoot(), 3, 0.10),
   };
 
 

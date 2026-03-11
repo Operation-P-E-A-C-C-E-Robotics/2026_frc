@@ -94,7 +94,6 @@ public final class Constants {
     public static final CANIDs frontRightIDs =    new CANIDs(13,  14,   15); //module 3
 
     public static final Gearing gearing = new Gearing(DriveGearRatios.SDSMK4i_L2, ((150.0 / 7.0) / 1.0), (3.807/2), 0);
-    // public static final EncoderOffsets offsets = new EncoderOffsets(-0.488770, -0.225342, -0.224609, -0.906738); //todo these offsets are very wrong.
     public static final EncoderOffsets offsets = new EncoderOffsets(  //YOU HAVE TO NEGATE THESE
       -0.328125+0.25, //Front Left, module 0   
       0.226074+0.25, //Front Right, module 3
@@ -110,7 +109,7 @@ public final class Constants {
     public static final PidGains driveGains = new PidGains(0, 0, 0, 0.15, 0); 
     public static final PidGains angleGains = new PidGains(40, 0, 0.000, 0, 0);
     
-    public static final int pigeonCANId = 3;  //TODO SWERVE DRIVE CHANGE PID ID TO WHAT ITS SET TO IN TUNER OR SMTHIN
+    public static final int pigeonCANId = 3;
     public static final boolean invertSteerMotors = Robot.isReal(); //cant invert in simulation which is dumb.
     
     /* HEADING CONTROLLER CONSTANTS */
@@ -218,7 +217,7 @@ public final class Constants {
   }
 
   public static final class Shooter {
-    public static final int shootMotorID = 19; //TODO
+    public static final int shootMotorID = 19;
     public static final int shootFollowerOneID = 26;
     public static final int shootFollowerTwoID = 27;
     public static final int shootFollowerThreeID = 30;
@@ -249,7 +248,7 @@ public final class Constants {
   }
 
   public static final class Climber {
-    public static final int climberServoID = 14; //TODO
+    public static final int climberServoID = 14; //TODO Dw abt climber for now
     public static final int climberWinchMotorID = 14;
     public static final double deployAngle = 90;
   }
@@ -273,8 +272,8 @@ public final class Constants {
     motorConfig.MotionMagic.MotionMagicExpo_kA = 0.2;
     motorConfig.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
     motorConfig.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
-    motorConfig.SoftwareLimitSwitch.ForwardSoftLimitThreshold = 6; //TODO
-    motorConfig.SoftwareLimitSwitch.ReverseSoftLimitThreshold = 0; //TODO
+    motorConfig.SoftwareLimitSwitch.ForwardSoftLimitThreshold = 6; //TODO TESTING
+    motorConfig.SoftwareLimitSwitch.ReverseSoftLimitThreshold = 0; //TODO TESTING
   }
   }
   public static final class IntakeDeploy{
