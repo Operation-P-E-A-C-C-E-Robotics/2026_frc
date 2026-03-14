@@ -36,7 +36,7 @@ import frc.lib.util.JoystickCurves;
 import frc.lib.vision.ApriltagCamera.ApriltagPhotonvision;
 
 public final class Constants {
-  public static final double period = 0.012;
+  public static final double period = 0.01;
 
   public static final class Cameras {
     public static final String exampleLimelight = "limelight";
@@ -110,7 +110,8 @@ public final class Constants {
     public static final PidGains driveGains = new PidGains(0, 0, 0, 0.15, 0); 
     public static final PidGains angleGains = new PidGains(40, 0, 0.000, 0, 0);
     
-    public static final int pigeonCANId = 3;
+    public static final int pigeonCANId = 3
+    ;
     public static final boolean invertSteerMotors = Robot.isReal(); //cant invert in simulation which is dumb.
     
     /* HEADING CONTROLLER CONSTANTS */
@@ -295,7 +296,7 @@ public final class Constants {
   }
   public static final class Intake{
     public static final int intakeMotorID = 60; 
-    public static final double intakeSpinSpeed = 0.7;
+    public static final double intakeSpinSpeed = 0.4;
   }
   public static final class Hopper{   
     //public static final int hopperSRXOneID = 42;

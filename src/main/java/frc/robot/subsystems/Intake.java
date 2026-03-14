@@ -32,4 +32,8 @@ public class Intake extends SubsystemBase {
   {
     return this.run(() -> {setSpeed(0);});
   }
+  public Command AntiIntake()
+  {
+    return this.run(() -> {setSpeed(0.56);});
+  }
 }

@@ -10,18 +10,20 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix6.hardware.TalonFX;  
 import static frc.robot.Constants.IntakeDeploy.*;
 
+import java.util.function.DoubleSupplier;
+
 
 public class IntakeDeploy extends SubsystemBase {
   public TalonFX intakeDeploy = new TalonFX(intakeDeployMotorID);
 
   public IntakeDeploy() 
   {
-    intakeDeploy.getConfigurator().apply(motorConfig);
+    //intakeDeploy.getConfigurator().apply(motorConfig);
   }
-  public Command DeployIntake()
-  {
-    return this.run(() -> {setSpeed(intakeDeployPos);});
-  }
+  // public Command DeployIntake()
+  // {
+  //   return this.run(() -> {setSpeed(1);});
+  // }
 
   @Override
   public void periodic() 
@@ -41,4 +43,8 @@ public class IntakeDeploy extends SubsystemBase {
   {
     return this.run(() -> {setSpeed(0);});
   } 
+  public Command ControlMotor(DoubleSupplier speed)//TEMP
+  {
+    return this.run(() -> {setSpeed(speed.getAsDouble());});
+  }
 }

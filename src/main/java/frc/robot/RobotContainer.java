@@ -33,8 +33,8 @@ public class RobotContainer {
   /* OI CONSTANTS */
   private final int translationAxis = 1; //forward/backward
   private final int strafeAxis = 0;
-  private final int rotationAxis = 4;
-  private final int zeroButtonNo = 7;
+  private final int rotationAxis = 2;
+  private final int zeroButtonNo = 3;
 
   /* SENSORS */
 
@@ -60,7 +60,7 @@ public class RobotContainer {
     // Button.onHold(shootFeed.Intake(), 1), //TODO
     // Button.onHold(shooter.Shoot(), 2), //TODO
     //Button.toggle(climber.DeployClimber(), 5), //TODO
-    Button.onHold(intakeDeploy.DeployIntake(), 5),
+    //Button.onHold(intakeDeploy.DeployIntake(), 5),
     // Button.onHold(intakeDeploy.DeployIntake(), 4), //TODO
     // Button.onHold(intake.IntakeStuff(), 8), //TODO
     // Button.onHold(hoppyWoppy.SortHopper(), 9), //TODO
@@ -80,7 +80,8 @@ public class RobotContainer {
     Button.onHold(shootFeed.Intake(), 6), //TODO
     Button.onHold(hoppyWoppy.SortHopper(), 6), //TODO
     Button.onHold(intake.IntakeStuff(), 5), //TODO
-    Button.onHold(intakeDeploy.DeployIntake(), 5),
+    JoystickTrigger.onMove(operatorController, intakeDeploy.ControlMotor(() -> operatorController.getRawAxis(5)* 0.8), 5, 0.1),
+    //Button.onHold(intakeDeploy.DeployIntake(), 5),
     // Button.onHold(shooter.Shoot(), 8),
     JoystickTrigger.onMove(operatorController, shooter.Shoot(), 3, 0.10),
     JoystickTrigger.onZero(operatorController, shooter.IdleShooter(), 3, 0.1),
@@ -118,8 +119,8 @@ public class RobotContainer {
 
     //shooter.setDefaultCommand(shooter.IdleShooter());
     climber.setDefaultCommand(climber.RestClimber());
-    hoppyWoppy.setDefaultCommand(hoppyWoppy.StopHoppyWoppy());
-    intakeDeploy.setDefaultCommand(intakeDeploy.UnDeploy()); //Set this to stop and make some other way to undeploy, if your having issues with this overriding controls.
+    hoppyWoppy.setDefaultCommand(hoppyWoppy.StopHoppyWoppy());//w h y
+    //intakeDeploy.setDefaultCommand(intakeDeploy.UnDeploy()); //Set this to stop and make some other way to undeploy, if your having issues with this overriding controls.
     intake.setDefaultCommand(intake.Stop());
     shootFeed.setDefaultCommand(shootFeed.Stop());
     hood.setDefaultCommand(hood.StoppyWoppy());

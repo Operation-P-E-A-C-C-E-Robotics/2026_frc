@@ -82,12 +82,11 @@ public void setSpeed(double speed)
   {
     // return this.run(() -> {
     //   setRPS(targetRPS);});
-    return this.run(() -> {setSpeed(.8);});
+    return this.run(() -> {setSpeed(.9);});
   }
   
   public Command IdleShooter()
   {
-    System.out.println("RUNNING IDLE SHOOT FUNCTION YAAAAY--------------");
     //return this.run(() -> {setRPS(0);}); 
     return this.run(() -> {setSpeed(0 );});  
   }
