@@ -34,14 +34,23 @@ public class Shooter extends SubsystemBase {
     shooterFollowerOne.getConfigurator().apply(motorConfig);
     shooterFollowerTwo.getConfigurator().apply(motorConfig);
     shooterFollowerThree.getConfigurator().apply(motorConfig);
-    shooterFollowerOne.setControl(new Follower(shootMotorID, MotorAlignmentValue.Aligned)); 
-    shooterFollowerTwo.setControl(new Follower(shootMotorID, MotorAlignmentValue.Opposed)); 
-    shooterFollowerThree.setControl(new Follower(shootMotorID, MotorAlignmentValue.Opposed)); 
+    //shooterFollowerOne.setControl(new Follower(shootMotorID, MotorAlignmentValue.Aligned)); 
+    shooterFollowerTwo.setControl(new Follower(26, MotorAlignmentValue.Opposed)); 
+    //shooterFollowerThree.setControl(new Follower(shootMotorID, MotorAlignmentValue.Opposed)); 
     // shooterMotor.getConfigurator().apply(new MotorOutputConfigs().withInverted(InvertedValue.Clockwise_Positive));
-    // shooterFollowerOne.getConfigurator().apply(new MotorOutputConfigs().withInverted(InvertedValue.Clockwise_Positive));
-    // shooterFollowerTwo.getConfigurator().apply(new MotorOutputConfigs().withInverted(InvertedValue.CounterClockwise_Positive));
+    shooterFollowerOne.getConfigurator().apply(new MotorOutputConfigs().withInverted(InvertedValue.Clockwise_Positive));
+    shooterFollowerTwo.getConfigurator().apply(new MotorOutputConfigs().withInverted(InvertedValue.CounterClockwise_Positive));
     // shooterFollowerThree.getConfigurator().apply(new MotorOutputConfigs().withInverted(InvertedValue.CounterClockwise_Positive));
     //System.out.println(shooterMotor.getVelocity().toString());
+
+
+    // shooterMotor.getConfigurator().apply(motorConfig);
+    // shooterFollowerOne.getConfigurator().apply(motorConfig);
+    // shooterFollowerTwo.getConfigurator().apply(motorConfig);
+    // shooterFollowerThree.getConfigurator().apply(motorConfig);
+    // shooterFollowerOne.setControl(new Follower(shootMotorID, MotorAlignmentValue.Aligned)); 
+    // shooterFollowerTwo.setControl(new Follower(shootMotorID, MotorAlignmentValue.Opposed)); 
+    // shooterFollowerThree.setControl(new Follower(shootMotorID, MotorAlignmentValue.Opposed)); 
   }
 
   @Override
@@ -54,7 +63,7 @@ public void setSpeed(double speed)
   {
     //shooterMotor.setControl(new VelocityVoltage(speed));
     // + (m_request.withVelocity(8).withFeedForward(0.5)); 
-    shooterMotor.set(speed);
+    shooterFollowerOne.set(speed);
         //shooterFollowerOne.set(speed);
             //shooterFollowerTwo.set(speed);
                 //shooterFollowerThree.set(speed);
@@ -63,7 +72,7 @@ public void setSpeed(double speed)
 
   public void setRPS(double RPS)
   {
-    shooterMotor.setControl(new VelocityVoltage(RPS));
+    shooterFollowerOne.setControl(new VelocityVoltage(RPS));
         // shooterFollowerOne.setControl(new VelocityVoltage(RPS));
         //     shooterFollowerTwo.setControl(new VelocityVoltage(RPS));
         //         shooterFollowerThree.setControl(new VelocityVoltage(RPS));
@@ -73,11 +82,13 @@ public void setSpeed(double speed)
   {
     // return this.run(() -> {
     //   setRPS(targetRPS);});
-          return this.run(() -> {setRPS(shootMotorSpeed);});  //TODO THIS IS TEMPORARY AND SHIULD BE 0 LATER
+    return this.run(() -> {setSpeed(.8);});
   }
   
   public Command IdleShooter()
   {
-    return this.run(() -> {setSpeed(0 );});  //TODO THIS IS TEMPORARY AND SHIULD BE 0 LATER
+    System.out.println("RUNNING IDLE SHOOT FUNCTION YAAAAY--------------");
+    //return this.run(() -> {setRPS(0);}); 
+    return this.run(() -> {setSpeed(0 );});  
   }
 }

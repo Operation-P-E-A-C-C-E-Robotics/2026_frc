@@ -7,6 +7,7 @@ package frc.robot;
 import java.io.IOException;
 import java.util.function.DoubleFunction;
 
+import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.signals.GravityTypeValue;
 import com.ctre.phoenix6.signals.InvertedValue;
@@ -35,7 +36,7 @@ import frc.lib.util.JoystickCurves;
 import frc.lib.vision.ApriltagCamera.ApriltagPhotonvision;
 
 public final class Constants {
-  public static final double period = 0.01;
+  public static final double period = 0.012;
 
   public static final class Cameras {
     public static final String exampleLimelight = "limelight";
@@ -222,7 +223,7 @@ public final class Constants {
     public static final int shootFollowerTwoID = 27;
     public static final int shootFollowerThreeID = 30;
     public static final double targetRPS = 1; //TODO
-    public static final double shootMotorSpeed = 0.3;//TODO
+    public static final double shootMotorSpeed = 0.1;//TODO
 
     public static TalonFXConfiguration motorConfig = new TalonFXConfiguration();
     static {
@@ -234,16 +235,18 @@ public final class Constants {
                         .withKV(0)
                         .withKA(0)
                         .withKG(0); 
-      motorConfig.CurrentLimits.StatorCurrentLimitEnable = false;
-      motorConfig.CurrentLimits.SupplyCurrentLimitEnable = false;
+      motorConfig.CurrentLimits.StatorCurrentLimitEnable = true;
+      motorConfig.CurrentLimits.withStatorCurrentLimit(120);
+      motorConfig.CurrentLimits.SupplyCurrentLimitEnable = true;
+      motorConfig.CurrentLimits.withSupplyCurrentLimit(40);
       motorConfig.MotorOutput.NeutralMode = NeutralModeValue.Coast;
-      motorConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
+      //motorConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
     }
   }
 
   public static final class ShooterFeed {
     public static final int shootFeedMotorID = 33;
-    public static final double shootFeedMotorSpeed = 0.8;
+    public static final double shootFeedMotorSpeed = 0.2;
 
   }
 
@@ -260,7 +263,7 @@ public final class Constants {
     public static TalonFXConfiguration motorConfig = new TalonFXConfiguration();
     static {
     motorConfig.Slot0.withGravityType(GravityTypeValue.Elevator_Static)
-                       .withKP(30)
+                       .withKP(30)  //TODO revaluate KP before doin other K values, at least for now.
                        .withKI(0)
                        .withKD(0)
                        .withKS(0)
@@ -282,10 +285,10 @@ public final class Constants {
     public static TalonFXConfiguration motorConfig = new TalonFXConfiguration();
     static {
     motorConfig.Slot0.withGravityType(GravityTypeValue.Arm_Cosine)
-                       .withKP(0)
+                       .withKP(0.08)
                        .withKI(0)
-                       .withKD(0)
-                       .withKS(0)
+                       .withKD(0.05)
+                       .withKS(0.01)
                        .withKV(0)
                        .withKA(0)
                        .withKG(0); }
@@ -299,7 +302,7 @@ public final class Constants {
     //public static final int hopperSRXTwoID = 41;
     public static final int hopperFloorMotorID = 31;
     public static final double hopperSRXSpeed = 0.3;
-    public static final double hopperFloorSpeed = 0.;
+    public static final double hopperFloorSpeed = 0.3;
   }
 }
  

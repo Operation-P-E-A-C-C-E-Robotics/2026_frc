@@ -83,6 +83,7 @@ public class RobotContainer {
     Button.onHold(intakeDeploy.DeployIntake(), 5),
     // Button.onHold(shooter.Shoot(), 8),
     JoystickTrigger.onMove(operatorController, shooter.Shoot(), 3, 0.10),
+    JoystickTrigger.onZero(operatorController, shooter.IdleShooter(), 3, 0.1),
   };
 
 
@@ -115,7 +116,7 @@ public class RobotContainer {
     new ButtonMap(operatorController).map(operatorMap);
 
 
-    shooter.setDefaultCommand(shooter.IdleShooter());
+    //shooter.setDefaultCommand(shooter.IdleShooter());
     climber.setDefaultCommand(climber.RestClimber());
     hoppyWoppy.setDefaultCommand(hoppyWoppy.StopHoppyWoppy());
     intakeDeploy.setDefaultCommand(intakeDeploy.UnDeploy()); //Set this to stop and make some other way to undeploy, if your having issues with this overriding controls.

@@ -22,10 +22,6 @@ public class HoppyWoppy extends SubsystemBase {
     //hopperSRXTwo.follow(hopperSRXOne);
   }
 
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
-  }
 //The second double is useless but its not rly hurting anything so o well.
   public void SetSpeed(double hopperFloorMotorSpeed)
   {

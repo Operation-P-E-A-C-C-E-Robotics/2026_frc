@@ -26,13 +26,6 @@ public class Hood extends SubsystemBase {
     hoodMotor.setPosition(0);
     // hoodMotorController = hoodMotor.getClosedLoopController();
   }
-
-  @Override
-  public void periodic()
-  {
-
-  }
-
   public void setSpeed(double speed)
   {
     hoodMotor.set(speed);  

@@ -18,14 +18,10 @@ public class Intake extends SubsystemBase {
   public Intake() {
   }
 
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
-  }
 
   public void setSpeed(double speed)
   {
-    intakeMotor.set(-speed);
+    intakeMotor.set(-speed); //TODO see if it should be set negative or not (just by checking its spinning the right way)
   }
 
   public Command IntakeStuff()
