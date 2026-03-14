@@ -34,7 +34,7 @@ public class IntakeDeploy extends SubsystemBase {
     intakeDeploy.set(speed);
   }
   public Command UnDeploy() 
-  {   //YOU NEED TO TUNE WHAT IS CURRENTLY 1, TO REFLECT WHERE A SAFE POSITION IS.
+  {   //TODO YOU NEED TO TUNE WHAT IS CURRENTLY 1, TO REFLECT WHERE A SAFE POSITION IS.
     return this.run(() -> {intakeDeploy.setPosition(1);});
   }
   public Command Stop()

@@ -59,12 +59,11 @@ public class RobotContainer {
   {  
     // Button.onHold(shootFeed.Intake(), 1), //TODO
     // Button.onHold(shooter.Shoot(), 2), //TODO
-    Button.toggle(climber.DeployClimber(), 5), //TODO
+    //Button.toggle(climber.DeployClimber(), 5), //TODO
     Button.onHold(intakeDeploy.DeployIntake(), 5),
     // Button.onHold(intakeDeploy.DeployIntake(), 4), //TODO
     // Button.onHold(intake.IntakeStuff(), 8), //TODO
     // Button.onHold(hoppyWoppy.SortHopper(), 9), //TODO
-
     
 
   };
@@ -119,7 +118,7 @@ public class RobotContainer {
     shooter.setDefaultCommand(shooter.IdleShooter());
     climber.setDefaultCommand(climber.RestClimber());
     hoppyWoppy.setDefaultCommand(hoppyWoppy.StopHoppyWoppy());
-    intakeDeploy.setDefaultCommand(intakeDeploy.Stop());
+    intakeDeploy.setDefaultCommand(intakeDeploy.UnDeploy()); //Set this to stop and make some other way to undeploy, if your having issues with this overriding controls.
     intake.setDefaultCommand(intake.Stop());
     shootFeed.setDefaultCommand(shootFeed.Stop());
     hood.setDefaultCommand(hood.StoppyWoppy());
