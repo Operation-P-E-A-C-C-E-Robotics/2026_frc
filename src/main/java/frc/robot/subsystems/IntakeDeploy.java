@@ -18,7 +18,7 @@ public class IntakeDeploy extends SubsystemBase {
 
   public IntakeDeploy() 
   {
-    //intakeDeploy.getConfigurator().apply(motorConfig);
+    intakeDeploy.getConfigurator().apply(motorConfig);
   }
   // public Command DeployIntake()
   // {

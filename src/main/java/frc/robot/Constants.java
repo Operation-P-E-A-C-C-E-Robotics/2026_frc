@@ -7,6 +7,7 @@ package frc.robot;
 import java.io.IOException;
 import java.util.function.DoubleFunction;
 
+import com.ctre.phoenix.motorcontrol.can.TalonSRXConfiguration;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.signals.GravityTypeValue;
@@ -223,18 +224,18 @@ public final class Constants {
     public static final int shootFollowerOneID = 26;
     public static final int shootFollowerTwoID = 27;
     public static final int shootFollowerThreeID = 30;
-    public static final double targetRPS = 1; //TODO
+    public static final double targetRPS = 71.7; //TODO
     public static final double shootMotorSpeed = 0.1;//TODO
 
     public static TalonFXConfiguration motorConfig = new TalonFXConfiguration();
     static {
       motorConfig.Slot0.withGravityType(GravityTypeValue.Arm_Cosine)
-                        .withKP(1)
+                        .withKP(0.01)
                         .withKI(0)
                         .withKD(0)
-                        .withKS(-0.8575)
-                        .withKV(0)
-                        .withKA(0)
+                        .withKS(0.031)
+                        .withKV(0.01025)
+                        .withKA(0.03)
                         .withKG(0); 
       motorConfig.CurrentLimits.StatorCurrentLimitEnable = true;
       motorConfig.CurrentLimits.withStatorCurrentLimit(120);
@@ -292,18 +293,39 @@ public final class Constants {
                        .withKS(0.01)
                        .withKV(0)
                        .withKA(0)
-                       .withKG(0); }
+                       .withKG(0);
+                       motorConfig.CurrentLimits.StatorCurrentLimitEnable = true;
+                       motorConfig.CurrentLimits.withStatorCurrentLimit(120);
+                       motorConfig.CurrentLimits.SupplyCurrentLimitEnable = true;
+                       motorConfig.CurrentLimits.withSupplyCurrentLimit(100);
+                      
+    }
   }
   public static final class Intake{
     public static final int intakeMotorID = 60; 
     public static final double intakeSpinSpeed = 0.4;
   }
   public static final class Hopper{   
-    //public static final int hopperSRXOneID = 42;
-    //public static final int hopperSRXTwoID = 41;
+    public static final int hopperSRXOneID = 28; //The wierd one
+    public static final int hopperSRXTwoID = 21;
     public static final int hopperFloorMotorID = 31;
-    public static final double hopperSRXSpeed = 0.3;
+    public static final double hopperSRXSpeed = 1;
     public static final double hopperFloorSpeed = 0.3;
+
+    public static TalonSRXConfiguration srxConfigOne = new TalonSRXConfiguration();
+    static 
+    {
+      srxConfigOne.peakCurrentDuration = 1;
+      srxConfigOne.peakCurrentLimit = 35;
+      srxConfigOne.continuousCurrentLimit = 35;
+    }
+    public static TalonSRXConfiguration srxConfigTwo = new TalonSRXConfiguration();
+    static 
+    {
+      srxConfigTwo.peakCurrentDuration = 1;
+      srxConfigTwo.peakCurrentLimit = 35;
+      srxConfigTwo.continuousCurrentLimit = 35;
+    }
   }
 }
  

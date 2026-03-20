@@ -24,16 +24,16 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Shooter extends SubsystemBase {
   /** Creates a new Shooter. */
-  public TalonFX shooterMotor = new TalonFX(shootMotorID);
+  //public TalonFX shooterMotor = new TalonFX(shootMotorID);
   public TalonFX shooterFollowerOne = new TalonFX(shootFollowerOneID);
   public TalonFX shooterFollowerTwo = new TalonFX(shootFollowerTwoID);
-  public TalonFX shooterFollowerThree = new TalonFX(shootFollowerThreeID);
+  //public TalonFX shooterFollowerThree = new TalonFX(shootFollowerThreeID);
   public Shooter() 
   {
-    shooterMotor.getConfigurator().apply(motorConfig);
+    //shooterMotor.getConfigurator().apply(motorConfig);
     shooterFollowerOne.getConfigurator().apply(motorConfig);
     shooterFollowerTwo.getConfigurator().apply(motorConfig);
-    shooterFollowerThree.getConfigurator().apply(motorConfig);
+    //shooterFollowerThree.getConfigurator().apply(motorConfig);
     //shooterFollowerOne.setControl(new Follower(shootMotorID, MotorAlignmentValue.Aligned)); 
     shooterFollowerTwo.setControl(new Follower(26, MotorAlignmentValue.Opposed)); 
     //shooterFollowerThree.setControl(new Follower(shootMotorID, MotorAlignmentValue.Opposed)); 
@@ -72,22 +72,23 @@ public void setSpeed(double speed)
 
   public void setRPS(double RPS)
   {
-    shooterFollowerOne.setControl(new VelocityVoltage(RPS));
+    // shooterFollowerOne.setControl(new VelocityVoltage(RPS));
         // shooterFollowerOne.setControl(new VelocityVoltage(RPS));
         //     shooterFollowerTwo.setControl(new VelocityVoltage(RPS));
         //         shooterFollowerThree.setControl(new VelocityVoltage(RPS));
+    shooterFollowerOne.setControl(new VelocityDutyCycle(RPS));
   }
 
   public Command Shoot()
   {
     // return this.run(() -> {
     //   setRPS(targetRPS);});
-    return this.run(() -> {setSpeed(.9);});
+    return this.run(() -> {setRPS(targetRPS);});
   }
   
   public Command IdleShooter()
   {
     //return this.run(() -> {setRPS(0);}); 
-    return this.run(() -> {setSpeed(0 );});  
+    return this.run(() -> {setSpeed(0);});  
   }
 }

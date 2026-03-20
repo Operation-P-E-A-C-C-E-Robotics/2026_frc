@@ -57,14 +57,6 @@ public class RobotContainer {
 
   private final OIEntry[] driverMap = new OIEntry[] 
   {  
-    // Button.onHold(shootFeed.Intake(), 1), //TODO
-    // Button.onHold(shooter.Shoot(), 2), //TODO
-    //Button.toggle(climber.DeployClimber(), 5), //TODO
-    //Button.onHold(intakeDeploy.DeployIntake(), 5),
-    // Button.onHold(intakeDeploy.DeployIntake(), 4), //TODO
-    // Button.onHold(intake.IntakeStuff(), 8), //TODO
-    // Button.onHold(hoppyWoppy.SortHopper(), 9), //TODO
-    
 
   };
 
@@ -77,14 +69,17 @@ public class RobotContainer {
     SimplePOV.onHold(hood.GoToHoodSetpoint(HoodSetpoints.angleFour), 270),
     SimplePOV.onHold(hood.GoToHoodSetpoint(HoodSetpoints.angleThree), 360),
     SimplePOV.onHold(hood.GoToHoodSetpoint(HoodSetpoints.angleTwo), 90),
-    Button.onHold(shootFeed.Intake(), 6), //TODO
-    Button.onHold(hoppyWoppy.SortHopper(), 6), //TODO
-    Button.onHold(intake.IntakeStuff(), 5), //TODO
-    JoystickTrigger.onMove(operatorController, intakeDeploy.ControlMotor(() -> operatorController.getRawAxis(5)* 0.8), 5, 0.1),
-    //Button.onHold(intakeDeploy.DeployIntake(), 5),
-    // Button.onHold(shooter.Shoot(), 8),
-    JoystickTrigger.onMove(operatorController, shooter.Shoot(), 3, 0.10),
-    JoystickTrigger.onZero(operatorController, shooter.IdleShooter(), 3, 0.1),
+    Button.onHold(shootFeed.Intake(), 6),
+    Button.onHold(hoppyWoppy.SortHopper(false, () -> 1), 1),
+    Button.onHold(hoppyWoppy.SortHopper(false, () -> 1), 2),
+    Button.onHold(hoppyWoppy.SortHopper(false, () -> 1), 3),
+    Button.onHold(hoppyWoppy.SortHopper(false, () -> 1), 4), 
+    JoystickTrigger.onMove(operatorController, intake.AntiIntake(() -> operatorController.getRawAxis(2) * 0.4), 2, 0.08),
+    JoystickTrigger.onMove(operatorController, hoppyWoppy.SortHopper(true, () -> operatorController.getRawAxis(2)), 2, 0.08),
+    JoystickTrigger.onMove(operatorController, intakeDeploy.ControlMotor(() -> operatorController.getRawAxis(5)* -1), 5, 0.1),
+    JoystickTrigger.onMove(operatorController, intake.IntakeStuff(() -> operatorController.getRawAxis(3) * .3), 3, 0.05),
+    JoystickTrigger.onZero(operatorController, intake.Stop(), 3, 0.08),
+    Button.onHold(shooter.Shoot(), 5),
   };
 
 
@@ -124,13 +119,14 @@ public class RobotContainer {
     intake.setDefaultCommand(intake.Stop());
     shootFeed.setDefaultCommand(shootFeed.Stop());
     hood.setDefaultCommand(hood.StoppyWoppy());
-  }
+    shooter.setDefaultCommand(shooter.IdleShooter());
+  }//comment
 
 
 
   public Command getAutonomousCommand() { 
     // return AutoBuilder.followPath(PathPlannerPath.fromPathFile("ExamplePathE"));
-    // return new PathPlannerAuto("ExamplePathE");
-    return null;
+    return new PathPlannerAuto("ExamplePathL");
+    //return null;
   }
 }
