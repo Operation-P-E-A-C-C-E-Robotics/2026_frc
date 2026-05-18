@@ -4,13 +4,22 @@
 
 package frc.robot;
 
+import java.io.IOException;
+
+import org.json.simple.parser.ParseException;
+
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.path.PathPlannerPath;
+import com.pathplanner.lib.util.FileVersionException;
+
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.lib.util.ButtonMap;
 import frc.lib.util.ButtonMap.Button;
@@ -34,7 +43,7 @@ public class RobotContainer {
   private final int translationAxis = 1; //forward/backward
   private final int strafeAxis = 0;
   private final int rotationAxis = 2;
-  private final int zeroButtonNo = 3;
+  private final int zeroButtonNo = 10;
 
   /* SENSORS */
 
@@ -55,9 +64,11 @@ public class RobotContainer {
   private final Joystick operatorController = new Joystick(1);
   private final JoystickButton zeroButton = new JoystickButton(driverController, zeroButtonNo); //for debugging
 
+
   private final OIEntry[] driverMap = new OIEntry[] 
   {  
-
+    //Button.onHold(driveTrain.SlowSwerve(), 2),
+    JoystickTrigger.onMove(driverController, climber.Winch(() -> operatorController.getRawAxis(2) * 0.4), 2, 0.08),
   };
 
   private final OIEntry[] operatorMap = new OIEntry[] 
@@ -69,15 +80,26 @@ public class RobotContainer {
     SimplePOV.onHold(hood.GoToHoodSetpoint(HoodSetpoints.angleFour), 270),
     SimplePOV.onHold(hood.GoToHoodSetpoint(HoodSetpoints.angleThree), 360),
     SimplePOV.onHold(hood.GoToHoodSetpoint(HoodSetpoints.angleTwo), 90),
-    Button.onHold(shootFeed.Intake(), 6),
+    Button.onHold(shootFeed.Intake().alongWith(
+      intakeDeploy.Retract(),
+      intake.IntakeStuff(() -> {return 0.5;})
+    ), 6),
     Button.onHold(hoppyWoppy.SortHopper(false, () -> 1), 1),
     Button.onHold(hoppyWoppy.SortHopper(false, () -> 1), 2),
     Button.onHold(hoppyWoppy.SortHopper(false, () -> 1), 3),
     Button.onHold(hoppyWoppy.SortHopper(false, () -> 1), 4), 
+    Button.onHold(hoppyWoppy.SortHopper(false, () -> 1), 6),
     JoystickTrigger.onMove(operatorController, intake.AntiIntake(() -> operatorController.getRawAxis(2) * 0.4), 2, 0.08),
     JoystickTrigger.onMove(operatorController, hoppyWoppy.SortHopper(true, () -> operatorController.getRawAxis(2)), 2, 0.08),
     JoystickTrigger.onMove(operatorController, intakeDeploy.ControlMotor(() -> operatorController.getRawAxis(5)* -1), 5, 0.1),
-    JoystickTrigger.onMove(operatorController, intake.IntakeStuff(() -> operatorController.getRawAxis(3) * .3), 3, 0.05),
+    JoystickTrigger.onMove(
+      operatorController, 
+      intake.IntakeStuff(() -> operatorController.getRawAxis(3) * .3).alongWith(
+        hoppyWoppy.SortHopper(false, () -> 1),
+        intakeDeploy.Deploy().withTimeout(3)
+      ),
+      3,
+      0.05),
     JoystickTrigger.onZero(operatorController, intake.Stop(), 3, 0.08),
     Button.onHold(shooter.Shoot(), 5),
   };
@@ -86,7 +108,7 @@ public class RobotContainer {
   /* COMMANDS */
   private final PeaccyDrive peaccyDrive = new PeaccyDrive(driveTrain);
   //private final BreathFire breathFire = new BreathFire();
-  
+  //remember to press ctrl + a and then press backspace
 
   // private final SendableChooser<Command> autoChooser = AutoBuilder.buildAutoChooser();
 
@@ -113,20 +135,34 @@ public class RobotContainer {
 
 
     //shooter.setDefaultCommand(shooter.IdleShooter());
-    climber.setDefaultCommand(climber.RestClimber());
+    //climber.setDefaultCommand(climber.AutoUnWinch());
     hoppyWoppy.setDefaultCommand(hoppyWoppy.StopHoppyWoppy());//w h y
     //intakeDeploy.setDefaultCommand(intakeDeploy.UnDeploy()); //Set this to stop and make some other way to undeploy, if your having issues with this overriding controls.
     intake.setDefaultCommand(intake.Stop());
     shootFeed.setDefaultCommand(shootFeed.Stop());
     hood.setDefaultCommand(hood.StoppyWoppy());
     shooter.setDefaultCommand(shooter.IdleShooter());
+    //driveTrain.setDefaultCommand(driveTrain.UnSlowSwerve());
   }//comment
 
 
 
   public Command getAutonomousCommand() { 
-    // return AutoBuilder.followPath(PathPlannerPath.fromPathFile("ExamplePathE"));
-    return new PathPlannerAuto("ExamplePathL");
-    //return null;
+    // try {
+    //   return AutoBuilder.followPath(PathPlannerPath.fromPathFile("ThePath")).andThen(
+    //     new ParallelCommandGroup(
+    //       shooter.Shoot(),
+    //       new SequentialCommandGroup(new WaitCommand(2), shootFeed.Intake())
+    //     )
+    //   );
+    // } catch (FileVersionException e) {
+    //   e.printStackTrace();
+    // } catch (IOException e) {
+    //   e.printStackTrace();
+    // } catch (ParseException e) {
+    //   e.printStackTrace();
+    // }
+    // return null;
+    return null;
   }
 }

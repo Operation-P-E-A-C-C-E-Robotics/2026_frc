@@ -36,10 +36,10 @@ public class Robot extends TimedRobot {
     //log data from network tables (SmartDashboard, etc.)
     DataLogManager.start();
     DataLogManager.logNetworkTables(false);
-    DriverStation.startDataLog(DataLogManager.getLog());
+    DriverStation.startDataLog(DataLogManager.getLog()); 
 
     //log current draw
-    //SmartDashboard.putData("PDP", pdp);
+     SmartDashboard.putData("PDP", pdp);
     System.out.println("Robot Initialized");
     System.out.println("yay the software didn't crash yet");
   }

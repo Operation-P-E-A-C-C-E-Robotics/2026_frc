@@ -73,17 +73,17 @@ public void setSpeed(double speed)
   public void setRPS(double RPS)
   {
     // shooterFollowerOne.setControl(new VelocityVoltage(RPS));
-        // shooterFollowerOne.setControl(new VelocityVoltage(RPS));
-        //     shooterFollowerTwo.setControl(new VelocityVoltage(RPS));
-        //         shooterFollowerThree.setControl(new VelocityVoltage(RPS));
-    shooterFollowerOne.setControl(new VelocityDutyCycle(RPS));
+    // shooterFollowerOne.setControl(new VelocityVoltage(RPS));
+    // shooterFollowerTwo.setControl(new VelocityVoltage(RPS));
+    // shooterFollowerThree.setControl(new VelocityVoltage(RPS));
+    shooterFollowerOne.setControl(new VelocityVoltage(RPS));
   }
 
   public Command Shoot()
   {
     // return this.run(() -> {
     //   setRPS(targetRPS);});
-    return this.run(() -> {setRPS(targetRPS);});
+    return this.run(() -> {setRPS(20);});
   }
   
   public Command IdleShooter()

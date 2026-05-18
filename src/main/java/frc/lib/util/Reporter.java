@@ -66,7 +66,7 @@ public class Reporter {
     /**
      * Logs a CTRE status code to the data logger
      * if it is an error code.
-     * @param status the status code to log
+     * @param status the status code to log 
      * @param message the message to log with the status code
      */
     public static void log (StatusCode status, String message) {

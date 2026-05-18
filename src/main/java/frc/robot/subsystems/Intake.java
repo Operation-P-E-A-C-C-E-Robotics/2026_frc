@@ -23,12 +23,12 @@ public class Intake extends SubsystemBase {
 
   public void setSpeed(double speed)
   {
-    intakeMotor.set(-speed); //TODO see if it should be set negative or not (just by checking its spinning the right way)
+    intakeMotor.set(speed); //TODO see if it should be set negative or not (just by checking its spinning the right way)
   }
 
   public Command IntakeStuff(DoubleSupplier speed)
   {
-    return this.run(() -> {setSpeed(speed.getAsDouble());});
+    return this.run(() -> {setSpeed(-speed.getAsDouble());});
   }
   public Command Stop()
   {
@@ -36,6 +36,6 @@ public class Intake extends SubsystemBase {
   }
   public Command AntiIntake(DoubleSupplier speed)
   {
-    return this.run(() -> {setSpeed(-speed.getAsDouble());});
+    return this.run(() -> {setSpeed(speed.getAsDouble());});
   }
 }

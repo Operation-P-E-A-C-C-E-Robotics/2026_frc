@@ -63,8 +63,12 @@ public final class Constants {
   public static final class Swerve {
     /* TELEOP */
     //speeds in m/s (probably)
-    public static final double teleopLinearMultiplier = 3.0;
-    public static final double teleopAngularMultiplier = 4.0;
+    public static final double storedTeleopLinearMultiplier = 3.0;
+    public static  final double storedTeleopAngularMultiplier = 4.0;
+    public static double teleopLinearMultiplier = 3.0;
+    public static double teleopAngularMultiplier = 4.0;
+    public static double slowedTeleopLinearMultiplier = 1.2;
+    public static double slowedAngularMultiplier = 1.6;
 
     //acceleration limits
     public static final double teleopLinearSpeedLimit = 5.0;
@@ -73,9 +77,9 @@ public final class Constants {
     public static final double teleopAngularRateLimit = 3.0;
 
     //deadband
-    public static final double teleopLinearSpeedDeadband = 0.15;
-    public static final double teleopAngularVelocityDeadband = 0.2;
-    public static final double teleopDeadbandDebounceTime = 0.1;
+    public static final double teleopLinearSpeedDeadband = 0.04;
+    public static final double teleopAngularVelocityDeadband = 0.04;
+    public static final double teleopDeadbandDebounceTime = 0.2;
 
     public static final DoubleFunction <Double> teleopLinearSpeedCurve = (double linearSpeed) -> JoystickCurves.herraFCurve(linearSpeed, 6, 4.5); //a nice gentle curve which is Peaccy's (me!!) favorite :)
     public static final DoubleFunction <Double> teleopAngularVelocityCurve = (double angularVelocity) -> JoystickCurves.powerCurve(angularVelocity, 2); //TODO decide if the driver (me) wants a curve on this or not.
@@ -177,8 +181,8 @@ public final class Constants {
   }
 
   public static final class ControlSystem {
-    public static final int PDPCanId = 0;
-    public static final ModuleType PDPModuleType = ModuleType.kCTRE;
+    public static final int PDPCanId = 1;
+    public static final ModuleType PDPModuleType = ModuleType.kRev;
   }
 
     //TELEOP
@@ -230,12 +234,12 @@ public final class Constants {
     public static TalonFXConfiguration motorConfig = new TalonFXConfiguration();
     static {
       motorConfig.Slot0.withGravityType(GravityTypeValue.Arm_Cosine)
-                        .withKP(0.01)
+                        .withKP(0.5)
                         .withKI(0)
                         .withKD(0)
-                        .withKS(0.031)
-                        .withKV(0.01025)
-                        .withKA(0.03)
+                        .withKS(0.17)
+                        .withKV(0.115)
+                        .withKA(0.0)
                         .withKG(0); 
       motorConfig.CurrentLimits.StatorCurrentLimitEnable = true;
       motorConfig.CurrentLimits.withStatorCurrentLimit(120);
@@ -253,9 +257,12 @@ public final class Constants {
   }
 
   public static final class Climber {
-    public static final int climberServoID = 14; //TODO Dw abt climber for now
-    public static final int climberWinchMotorID = 14;
-    public static final double deployAngle = 90;
+    //public static final int climberServoID = 43; //TODO Dw abt climber for now
+    public static final int climberMotorOneID = 47;
+    public static final int climberMotorTwoID = 46;
+    public static final double climberSpeed = 0.3;
+    public static final double climberMotorTwoPGain = 0.005;
+    //public static final double deployAngle = 90;
   }
   
   public static final class Hood {
@@ -284,6 +291,7 @@ public final class Constants {
   public static final class IntakeDeploy{
     public static final int intakeDeployMotorID = 18; //TODO
     public static final double intakeDeployPos = 8;    //figure it out by turning robot on with intake up, putting intake down, and then looking at numbey wumbey
+    public static final double deploySpeed = 0.6;
     public static TalonFXConfiguration motorConfig = new TalonFXConfiguration();
     static {
     motorConfig.Slot0.withGravityType(GravityTypeValue.Arm_Cosine)
@@ -295,9 +303,9 @@ public final class Constants {
                        .withKA(0)
                        .withKG(0);
                        motorConfig.CurrentLimits.StatorCurrentLimitEnable = true;
-                       motorConfig.CurrentLimits.withStatorCurrentLimit(120);
+                       motorConfig.CurrentLimits.withStatorCurrentLimit(20);
                        motorConfig.CurrentLimits.SupplyCurrentLimitEnable = true;
-                       motorConfig.CurrentLimits.withSupplyCurrentLimit(100);
+                       motorConfig.CurrentLimits.withSupplyCurrentLimit(20);
                       
     }
   }
@@ -310,7 +318,7 @@ public final class Constants {
     public static final int hopperSRXTwoID = 21;
     public static final int hopperFloorMotorID = 31;
     public static final double hopperSRXSpeed = 1;
-    public static final double hopperFloorSpeed = 0.3;
+    public static final double hopperFloorSpeed = 1;
 
     public static TalonSRXConfiguration srxConfigOne = new TalonSRXConfiguration();
     static 

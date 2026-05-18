@@ -5,9 +5,16 @@
 package frc.robot.subsystems;
 
 
+import edu.wpi.first.units.measure.Current;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import com.ctre.phoenix6.hardware.TalonFX;  
+
+import com.ctre.phoenix6.StatusSignal;
+import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.ReverseLimitSourceValue;
+import com.ctre.phoenix6.signals.ReverseLimitValue;
+
 import static frc.robot.Constants.IntakeDeploy.*;
 
 import java.util.function.DoubleSupplier;
@@ -15,8 +22,12 @@ import java.util.function.DoubleSupplier;
 
 public class IntakeDeploy extends SubsystemBase {
   public TalonFX intakeDeploy = new TalonFX(intakeDeployMotorID);
+  private Timer jostleTimer = new Timer();
+  private boolean jostling = false;
+  private StatusSignal<ReverseLimitValue> limitSwitch = intakeDeploy.getReverseLimit();
+  private StatusSignal<Current> statorCurrent = intakeDeploy.getStatorCurrent();
 
-  public IntakeDeploy() 
+  public IntakeDeploy()
   {
     intakeDeploy.getConfigurator().apply(motorConfig);
   }
@@ -43,6 +54,28 @@ public class IntakeDeploy extends SubsystemBase {
   {
     return this.run(() -> {setSpeed(0);});
   } 
+  public Command Deploy()
+  {
+    return this.run(() -> {intakeDeploy.set(deploySpeed);});
+  }
+  public Command Retract()
+  {
+    return this.run(() -> {
+      jostleTimer.start();
+      if(jostling && jostleTimer.get() > 0.5) {
+        jostling = false;
+        jostleTimer.reset();
+        jostleTimer.start();
+      }
+      limitSwitch.refresh();
+      if(limitSwitch.getValue() == ReverseLimitValue.ClosedToGround || statorCurrent.getValueAsDouble() > 25) {
+        jostling = true;
+        jostleTimer.reset();
+        jostleTimer.start();
+      }
+      intakeDeploy.set(deploySpeed * (jostling ? 1 : -1));
+    });
+  }
   public Command ControlMotor(DoubleSupplier speed)//TEMP
   {
     return this.run(() -> {setSpeed(speed.getAsDouble());});

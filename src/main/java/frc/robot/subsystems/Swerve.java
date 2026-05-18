@@ -24,6 +24,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.safety.Inspiration;
 import frc.lib.swerve.PeaccefulSwerve;
@@ -93,8 +94,8 @@ public class Swerve extends SubsystemBase {
                 this::getChassisSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
                 (speeds, feedforwards) -> drive(speeds), // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds. Also optionally outputs individual module feedforwards
                 new PPHolonomicDriveController( // PPHolonomicController is the built in path following controller for holonomic drive trains
-                        new PIDConstants(3.0, 0.0, 0.0), // Translation PID constants
-                        new PIDConstants(3.0, 0.0, 0.0) // Rotation PID constants
+                        new PIDConstants(5.1, 0.0, 0.0), // Translation PID constants
+                        new PIDConstants(5.1, 0.0, 0.0) // Rotation PID constants
                 ),
                 config, // The robot configuration
                 () -> {
@@ -252,4 +253,15 @@ public class Swerve extends SubsystemBase {
     public void register(Joystick j){
         Inspiration.fullPeacce(j);
     }
+
+    // public Command SlowSwerve()
+    // {
+    //     return this.run(() -> {Constants.Swerve.teleopLinearMultiplier = Constants.Swerve.slowedTeleopLinearMultiplier;
+    //     Constants.Swerve.teleopAngularMultiplier = Constants.Swerve.slowedAngularMultiplier;});
+    // }
+    // public Command UnSlowSwerve()
+    // {
+    //     return this.run(() -> {Constants.Swerve.teleopLinearMultiplier = Constants.Swerve.storedTeleopLinearMultiplier;
+    //     Constants.Swerve.teleopAngularMultiplier = Constants.Swerve.storedTeleopAngularMultiplier;});
+    // }
 }

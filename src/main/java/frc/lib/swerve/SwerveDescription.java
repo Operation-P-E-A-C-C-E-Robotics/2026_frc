@@ -55,7 +55,7 @@ public class SwerveDescription {
                                 boolean invertSteerMotors){
         LegacySwerveDrivetrainConstants swerveConstants = new LegacySwerveDrivetrainConstants()
                                                     .withPigeon2Id(pigeonCANId)
-                                                    .withCANbusName("rio");
+                                                    .withCANbusName("Joe");
         LegacySwerveModuleConstantsFactory globalModuleConstants = new LegacySwerveModuleConstantsFactory()
                                     .withDriveMotorGearRatio(gearing.driveRatio)
                                     .withSteerMotorGearRatio(gearing.steerRatio)
