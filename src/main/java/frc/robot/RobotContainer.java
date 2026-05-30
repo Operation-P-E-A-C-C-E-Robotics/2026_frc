@@ -24,6 +24,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.lib.util.ButtonMap;
 import frc.lib.util.ButtonMap.Button;
 import frc.lib.util.ButtonMap.JoystickTrigger;
+import frc.lib.util.ButtonMap.MultiButton;
 import frc.lib.util.ButtonMap.OIEntry;
 import frc.lib.util.ButtonMap.SimplePOV;
 import frc.robot.commands.drivetrain.PeaccyDrive;
@@ -37,6 +38,7 @@ import frc.robot.subsystems.Hood;
 import frc.robot.subsystems.HoppyWoppy;
 import frc.robot.subsystems.IntakeDeploy;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.SafeMode;
 
 public class RobotContainer {
   /* OI CONSTANTS */
@@ -64,10 +66,10 @@ public class RobotContainer {
   private final Joystick operatorController = new Joystick(1);
   private final JoystickButton zeroButton = new JoystickButton(driverController, zeroButtonNo); //for debugging
 
-
   private final OIEntry[] driverMap = new OIEntry[] 
   {  
     //Button.onHold(driveTrain.SlowSwerve(), 2),
+    //MultiButton.onPress(driverController, ),
     JoystickTrigger.onMove(driverController, climber.Winch(() -> operatorController.getRawAxis(2) * 0.4), 2, 0.08),
   };
 
@@ -104,7 +106,7 @@ public class RobotContainer {
     Button.onHold(shooter.Shoot(), 5),
   };
 
-
+// hi -avery
   /* COMMANDS */
   private final PeaccyDrive peaccyDrive = new PeaccyDrive(driveTrain);
   //private final BreathFire breathFire = new BreathFire();
@@ -147,7 +149,7 @@ public class RobotContainer {
 
 
 
-  public Command getAutonomousCommand() { 
+  public Command getAutonomousCommand() {
     // try {
     //   return AutoBuilder.followPath(PathPlannerPath.fromPathFile("ThePath")).andThen(
     //     new ParallelCommandGroup(

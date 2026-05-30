@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 public class BreathFire extends Command {
   /** Creates a new BreathFire. */
   public BreathFire() {
-    // Use addRequirements() here to declare subsystem dependencies.
+    System.out.println("rawwrrrr gsfnaonfsdidcnffwwwoooosshhhh raaarr"); // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.

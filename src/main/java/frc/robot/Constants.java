@@ -230,6 +230,7 @@ public final class Constants {
     public static final int shootFollowerThreeID = 30;
     public static final double targetRPS = 71.7; //TODO
     public static final double shootMotorSpeed = 0.1;//TODO
+    public static double shootMotorMultiplier = 1;
 
     public static TalonFXConfiguration motorConfig = new TalonFXConfiguration();
     static {
@@ -266,6 +267,7 @@ public final class Constants {
   }
   
   public static final class Hood {
+    public static double hoodMotorMultiplier = 1;
     public static final int hoodMotorID = 20;
     public static final double motorRotateSpeed = 0.2;
     public static final double motorRotationsPerHoodRotations = (10/1) * (250/16);
@@ -289,6 +291,7 @@ public final class Constants {
   }
   }
   public static final class IntakeDeploy{
+    public static double intakeDeployMultiplierr = 1;
     public static final int intakeDeployMotorID = 18; //TODO
     public static final double intakeDeployPos = 8;    //figure it out by turning robot on with intake up, putting intake down, and then looking at numbey wumbey
     public static final double deploySpeed = 0.6;
@@ -310,6 +313,7 @@ public final class Constants {
     }
   }
   public static final class Intake{
+    public static double intakeMotorMultiplier = 1;
     public static final int intakeMotorID = 60; 
     public static final double intakeSpinSpeed = 0.4;
   }

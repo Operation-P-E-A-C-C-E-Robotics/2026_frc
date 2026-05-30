@@ -28,7 +28,10 @@ public class HoppyWoppy extends SubsystemBase {
   private final SparkFlex hopperFloorMotor = new SparkFlex(hopperFloorMotorID, MotorType.kBrushless);
   Timer unjamTimer = new Timer();
   boolean unjamming = false;
+  String hi = "hi";
+  
   public HoppyWoppy() {
+    System.out.println(hi);
     hopperFloorMotor.configure(new SparkFlexConfig().smartCurrentLimit(60), ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     hopperSRXOne.configAllSettings(srxConfigOne);
     hopperSRXTwo.configAllSettings(srxConfigTwo);
@@ -36,7 +39,7 @@ public class HoppyWoppy extends SubsystemBase {
 
 //The second double is useless but its not rly hurting anything so o well.
   public void SetSpeed(double hopperFloorMotorSpeed, double srxOneSpeed, double srxTwoSpeed)
-  {
+  { 
     hopperSRXOne.set(TalonSRXControlMode.PercentOutput, -srxOneSpeed);
     hopperSRXTwo.set(TalonSRXControlMode.PercentOutput, srxTwoSpeed);
     this.hopperFloorMotor.set(hopperFloorMotorSpeed);
@@ -47,7 +50,7 @@ public class HoppyWoppy extends SubsystemBase {
   {
     if(!reverse)
     {
-      return this.run(() -> {SetSpeed(hopperFloorSpeed * multiplier.getAsDouble(), hopperSRXSpeed * multiplier.getAsDouble(), hopperSRXSpeed * multiplier.getAsDouble());});
+      return this.run(() -> {SetSpeed(-hopperFloorSpeed * multiplier.getAsDouble(), -hopperSRXSpeed * multiplier.getAsDouble(), -hopperSRXSpeed * multiplier.getAsDouble());});
     }
     else
     {
@@ -60,7 +63,7 @@ public class HoppyWoppy extends SubsystemBase {
           unjamming = true;
           unjamTimer.reset();
         }
-        SetSpeed(-hopperFloorSpeed * multiplier.getAsDouble() * (unjamming ? -1 : 1), -hopperSRXSpeed * multiplier.getAsDouble(), -hopperSRXSpeed * multiplier.getAsDouble());
+        SetSpeed(hopperFloorSpeed * multiplier.getAsDouble() * (unjamming ? -1 : 1), hopperSRXSpeed * multiplier.getAsDouble(), hopperSRXSpeed * multiplier.getAsDouble());
       });
     }
   }
