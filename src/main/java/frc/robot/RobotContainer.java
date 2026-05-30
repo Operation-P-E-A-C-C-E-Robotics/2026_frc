@@ -91,9 +91,9 @@ public class RobotContainer {
     Button.onHold(hoppyWoppy.SortHopper(false, () -> 1), 3),
     Button.onHold(hoppyWoppy.SortHopper(false, () -> 1), 4), 
     Button.onHold(hoppyWoppy.SortHopper(false, () -> 1), 6),
-    JoystickTrigger.onMove(operatorController, intake.AntiIntake(() -> operatorController.getRawAxis(2) * 0.4), 2, 0.08),
+    JoystickTrigger.onMove(operatorController, intake.AntiIntake(() -> operatorController.getRawAxis(2) * -1), 2, 0.08),
     JoystickTrigger.onMove(operatorController, hoppyWoppy.SortHopper(true, () -> operatorController.getRawAxis(2)), 2, 0.08),
-    JoystickTrigger.onMove(operatorController, intakeDeploy.ControlMotor(() -> operatorController.getRawAxis(5)* -1), 5, 0.1),
+    JoystickTrigger.onMove(operatorController, intakeDeploy.ControlMotor(() -> operatorController.getRawAxis(5)* 0.4), 5, 0.1),
     JoystickTrigger.onMove(
       operatorController, 
       intake.IntakeStuff(() -> operatorController.getRawAxis(3) * .3).alongWith(
