@@ -58,24 +58,24 @@ public class IntakeDeploy extends SubsystemBase {
   {
     return this.run(() -> {intakeDeploy.set(deploySpeed);});
   }
-  public Command Retract()
-  {
-    return this.run(() -> {
-      jostleTimer.start();
-      if(jostling && jostleTimer.get() > 0.5) {
-        jostling = false;
-        jostleTimer.reset();
-        jostleTimer.start();
-      }
-      limitSwitch.refresh();
-      if(limitSwitch.getValue() == ReverseLimitValue.ClosedToGround || statorCurrent.getValueAsDouble() > 25) {
-        jostling = true;
-        jostleTimer.reset();
-        jostleTimer.start();
-      }
-      intakeDeploy.set(deploySpeed * (jostling ? 1 : -1));
-    });
-  }
+  // public Command Retract()
+  // {
+  //   return this.run(() -> {
+  //     jostleTimer.start();
+  //     if(jostling && jostleTimer.get() > 0.5) {
+  //       jostling = false;
+  //       jostleTimer.reset();
+  //       jostleTimer.start();
+  //     }
+  //     limitSwitch.refresh();
+  //     if(limitSwitch.getValue() == ReverseLimitValue.ClosedToGround || statorCurrent.getValueAsDouble() > 25) {
+  //       jostling = true;
+  //       jostleTimer.reset();
+  //       jostleTimer.start();
+  //     }
+  //     intakeDeploy.set(deploySpeed * (jostling ? 1 : -1));
+  //   });
+  // }
   public Command ControlMotor(DoubleSupplier speed)//TEMP
   {
     return this.run(() -> {setSpeed(speed.getAsDouble());});

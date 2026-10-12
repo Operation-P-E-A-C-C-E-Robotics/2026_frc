@@ -35,7 +35,7 @@ public class Robot extends TimedRobot {
 
     //log data from network tables (SmartDashboard, etc.)
     DataLogManager.start();
-    DataLogManager.logNetworkTables(false);
+    // DataLogManager.logNetworkTables(false);
     DriverStation.startDataLog(DataLogManager.getLog()); 
 
     //log current draw

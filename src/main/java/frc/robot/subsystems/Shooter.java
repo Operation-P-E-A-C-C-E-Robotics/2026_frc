@@ -27,20 +27,20 @@ public class Shooter extends SubsystemBase {
   //public TalonFX shooterMotor = new TalonFX(shootMotorID);
   public TalonFX shooterFollowerOne = new TalonFX(shootFollowerOneID);
   public TalonFX shooterFollowerTwo = new TalonFX(shootFollowerTwoID);
-  //public TalonFX shooterFollowerThree = new TalonFX(shootFollowerThreeID);
+  public TalonFX shooterFollowerThree = new TalonFX(shootFollowerThreeID);
   public Shooter() 
   {
     //shooterMotor.getConfigurator().apply(motorConfig);
     shooterFollowerOne.getConfigurator().apply(motorConfig);
     shooterFollowerTwo.getConfigurator().apply(motorConfig);
-    //shooterFollowerThree.getConfigurator().apply(motorConfig);
+    shooterFollowerThree.getConfigurator().apply(motorConfig);
     //shooterFollowerOne.setControl(new Follower(shootMotorID, MotorAlignmentValue.Aligned)); 
-    shooterFollowerTwo.setControl(new Follower(26, MotorAlignmentValue.Opposed)); 
-    //shooterFollowerThree.setControl(new Follower(shootMotorID, MotorAlignmentValue.Opposed)); 
+    shooterFollowerTwo.setControl(new Follower(shootFollowerOneID, MotorAlignmentValue.Opposed)); 
+    shooterFollowerThree.setControl(new Follower(shootFollowerOneID, MotorAlignmentValue.Opposed)); 
     // shooterMotor.getConfigurator().apply(new MotorOutputConfigs().withInverted(InvertedValue.Clockwise_Positive));
     shooterFollowerOne.getConfigurator().apply(new MotorOutputConfigs().withInverted(InvertedValue.Clockwise_Positive));
     shooterFollowerTwo.getConfigurator().apply(new MotorOutputConfigs().withInverted(InvertedValue.CounterClockwise_Positive));
-    // shooterFollowerThree.getConfigurator().apply(new MotorOutputConfigs().withInverted(InvertedValue.CounterClockwise_Positive));
+    shooterFollowerThree.getConfigurator().apply(new MotorOutputConfigs().withInverted(InvertedValue.CounterClockwise_Positive));
     //System.out.println(shooterMotor.getVelocity().toString());
 
 
@@ -83,9 +83,9 @@ public void setSpeed(double speed)
   {
     // return this.run(() -> {
     //   setRPS(targetRPS);});
-    return this.run(() -> {setRPS(20);});
+    return this.run(() -> {setRPS(12.7);}); //was 20
   }
-  
+    
   public Command IdleShooter()
   {
     //return this.run(() -> {setRPS(0);}); 

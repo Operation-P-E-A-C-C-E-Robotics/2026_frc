@@ -83,26 +83,26 @@ public class RobotContainer {
     SimplePOV.onHold(hood.GoToHoodSetpoint(HoodSetpoints.angleThree), 360),
     SimplePOV.onHold(hood.GoToHoodSetpoint(HoodSetpoints.angleTwo), 90),
     Button.onHold(shootFeed.Intake().alongWith(
-      intakeDeploy.Retract(),
+      //intakeDeploy.Retract(),
       intake.IntakeStuff(() -> {return 0.5;})
     ), 6),
     Button.onHold(hoppyWoppy.SortHopper(false, () -> 1), 1),
     Button.onHold(hoppyWoppy.SortHopper(false, () -> 1), 2),
-    Button.onHold(hoppyWoppy.SortHopper(false, () -> 1), 3),
-    Button.onHold(hoppyWoppy.SortHopper(false, () -> 1), 4), 
-    Button.onHold(hoppyWoppy.SortHopper(false, () -> 1), 6),
-    JoystickTrigger.onMove(operatorController, intake.AntiIntake(() -> operatorController.getRawAxis(2) * -1), 2, 0.08),
-    JoystickTrigger.onMove(operatorController, hoppyWoppy.SortHopper(true, () -> operatorController.getRawAxis(2)), 2, 0.08),
+    Button.onHold(hoppyWoppy.SortHopper(true, () -> 1), 3),
+    Button.onHold(hoppyWoppy.SortHopper(true, () -> 1), 4), 
+    Button.onHold(hoppyWoppy.SortHopper(true, () -> 1), 6),
+    JoystickTrigger.onMove(operatorController, intake.AntiIntake(() -> operatorController.getRawAxis(3) * 1), 3, 0.08),
+    JoystickTrigger.onMove(operatorController, hoppyWoppy.SortHopper(false, () -> operatorController.getRawAxis(3)), 3, 0.08),
     JoystickTrigger.onMove(operatorController, intakeDeploy.ControlMotor(() -> operatorController.getRawAxis(5)* 0.4), 5, 0.1),
     JoystickTrigger.onMove(
       operatorController, 
-      intake.IntakeStuff(() -> operatorController.getRawAxis(3) * .3).alongWith(
-        hoppyWoppy.SortHopper(false, () -> 1),
-        intakeDeploy.Deploy().withTimeout(3)
+      intake.IntakeStuff(() -> operatorController.getRawAxis(2) * .3).alongWith(
+        hoppyWoppy.SortHopper(true, () -> operatorController.getRawAxis(2))//,
+        //intakeDeploy.Deploy().withTimeout(2.5)
       ),
-      3,
+      2,
       0.05),
-    JoystickTrigger.onZero(operatorController, intake.Stop(), 3, 0.08),
+    JoystickTrigger.onZero(operatorController, intake.Stop(), 3, 0.04),
     Button.onHold(shooter.Shoot(), 5),
   };
 
@@ -150,20 +150,21 @@ public class RobotContainer {
 
 
   public Command getAutonomousCommand() {
-    // try {
-    //   return AutoBuilder.followPath(PathPlannerPath.fromPathFile("ThePath")).andThen(
-    //     new ParallelCommandGroup(
-    //       shooter.Shoot(),
-    //       new SequentialCommandGroup(new WaitCommand(2), shootFeed.Intake())
-    //     )
-    //   );
-    // } catch (FileVersionException e) {
-    //   e.printStackTrace();
-    // } catch (IOException e) {
-    //   e.printStackTrace();
-    // } catch (ParseException e) {
-    //   e.printStackTrace();
-    // }
+    try {
+      PathPlannerPath auto = PathPlannerPath.fromPathFile("DoAlmostNothing");
+      return new SequentialCommandGroup(driveTrain.resetPathPlannerPose(auto), AutoBuilder.followPath(auto));//.andThen(
+        //new ParallelCommandGroup(
+          //shooter.Shoot(),
+         // new SequentialCommandGroup(new WaitCommand(2), shootFeed.Intake())
+        //)
+     // );
+    } catch (FileVersionException e) {
+      e.printStackTrace();
+    } catch (IOException e) {
+      e.printStackTrace();
+    } catch (ParseException e) {
+      e.printStackTrace();
+    }
     // return null;
     return null;
   }

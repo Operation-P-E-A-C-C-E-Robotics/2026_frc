@@ -228,8 +228,8 @@ public final class Constants {
     public static final int shootFollowerOneID = 26;
     public static final int shootFollowerTwoID = 27;
     public static final int shootFollowerThreeID = 30;
-    public static final double targetRPS = 71.7; //TODO
-    public static final double shootMotorSpeed = 0.1;//TODO
+    public static final double targetRPS = 8; //TODO, NORMAL is 71.7
+    public static final double shootMotorSpeed = 0.01;//TODO
     public static double shootMotorMultiplier = 1;
 
     public static TalonFXConfiguration motorConfig = new TalonFXConfiguration();
@@ -344,6 +344,5 @@ public final class Constants {
 
 
 
-// Hi drive team!!!
-//-Avery 
+// Hi drive team!!! -Avery 
 //good luck -sam

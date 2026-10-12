@@ -5,9 +5,11 @@ import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.mechanisms.swerve.LegacySwerveDrivetrain.LegacySwerveDriveState;
 import com.ctre.phoenix6.mechanisms.swerve.LegacySwerveModule.DriveRequestType;
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.config.RobotConfig;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
+import com.pathplanner.lib.path.PathPlannerPath;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
@@ -22,9 +24,11 @@ import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.safety.Inspiration;
 import frc.lib.swerve.PeaccefulSwerve;
@@ -103,10 +107,10 @@ public class Swerve extends SubsystemBase {
                     // This will flip the path being followed to the red side of the field.
                     // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
 
-                    // var alliance = DriverStation.getAlliance();
-                    // if (alliance.isPresent()) {
-                    //     return alliance.get() == DriverStation.Alliance.Red;
-                    // }
+                    var alliance = DriverStation.getAlliance();
+                    if (alliance.isPresent()) {
+                        return alliance.get() == DriverStation.Alliance.Red;
+                    }
                     return false;
                 },
                 this // Reference to this subsystem to set requirements
@@ -202,6 +206,9 @@ public class Swerve extends SubsystemBase {
         return swerve.getTotalDriveCurrent();
     }
 
+    public InstantCommand resetPathPlannerPose(PathPlannerPath auto) {
+        return new InstantCommand(() -> this.resetOdometry(auto.getStartingDifferentialPose()), this);
+    }
     /**
      * DO NOT use this in normal operation. For calibration only
      * @param gains the new gains to apply to the drive motors.

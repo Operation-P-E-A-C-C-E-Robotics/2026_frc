@@ -20,14 +20,14 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import static frc.robot.Constants.Hopper.*;
 
 import java.util.function.DoubleSupplier;
-
+//system.out.print.ln(nonononononononononononononnononononononononononononononononononnoonnoonnnnoooonoooonnnnnnnooooooonononono)
 public class HoppyWoppy extends SubsystemBase {
   /** Creates a new HoppyWoppy. */
   private final TalonSRX hopperSRXOne = new TalonSRX(hopperSRXOneID);
   private final TalonSRX hopperSRXTwo = new TalonSRX(hopperSRXTwoID);
   private final SparkFlex hopperFloorMotor = new SparkFlex(hopperFloorMotorID, MotorType.kBrushless);
-  Timer unjamTimer = new Timer();
-  boolean unjamming = false;
+  //Timer unjamTimer = new Timer();
+  //boolean unjamming = false;
   String hi = "hi";
   
   public HoppyWoppy() {
@@ -43,7 +43,7 @@ public class HoppyWoppy extends SubsystemBase {
     hopperSRXOne.set(TalonSRXControlMode.PercentOutput, -srxOneSpeed);
     hopperSRXTwo.set(TalonSRXControlMode.PercentOutput, srxTwoSpeed);
     this.hopperFloorMotor.set(hopperFloorMotorSpeed);
-    unjamTimer.start();
+    //unjamTimer.start();
   }
 
   public Command SortHopper(boolean reverse, DoubleSupplier multiplier) //Now that multipliers here we dont need the boolean but its not hurting anything ig
@@ -55,15 +55,15 @@ public class HoppyWoppy extends SubsystemBase {
     else
     {
       return this.run(() -> {
-        unjamTimer.start();
-        if(unjamming && unjamTimer.get() > 0.159){
-          unjamming = false;
-          unjamTimer.reset();
-        } else if (unjamTimer.get() > 1){
-          unjamming = true;
-          unjamTimer.reset();
-        }
-        SetSpeed(hopperFloorSpeed * multiplier.getAsDouble() * (unjamming ? -1 : 1), hopperSRXSpeed * multiplier.getAsDouble(), hopperSRXSpeed * multiplier.getAsDouble());
+        // unjamTimer.start();
+        // if(unjamming && unjamTimer.get() > 0.159){
+        //   unjamming = false;
+        //   unjamTimer.reset();
+        // } else if (unjamTimer.get() > 1){
+        //   unjamming = true;
+        //   unjamTimer.reset();
+        // }
+        SetSpeed(hopperFloorSpeed * multiplier.getAsDouble() * multiplier.getAsDouble(), hopperSRXSpeed * multiplier.getAsDouble(), hopperSRXSpeed * multiplier.getAsDouble());
       });
     }
   }
